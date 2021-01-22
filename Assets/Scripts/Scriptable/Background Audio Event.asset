@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22249a2f93dc38540911aac5fe997460, type: 3}
+  m_Name: Background Audio Event
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: 475f4837af487ce4a9e68bb227455e4c, type: 3}
+  - {fileID: 8300000, guid: 90eae78e8ce85a849b5b0ca11b2de641, type: 3}
+  - {fileID: 8300000, guid: 47f45ef7b5767674393cc401fc325705, type: 3}
+  - {fileID: 8300000, guid: 1532c7e67c2d60c4c8780da14b7e8fcf, type: 3}
+  volume:
+    min: 0.1
+    max: 0.2
+  pitch:
+    min: 0.8
+    max: 0.9

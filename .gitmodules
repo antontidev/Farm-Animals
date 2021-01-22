@@ -1,0 +1,6 @@
+[submodule "Unity-Development-Tools"]
+	path = Assets/Unity-Development-Tools
+	url = https://github.com/heisarzola/Unity-Development-Tools.git
+[submodule "Assets/Shared-Lib"]
+	path = Assets/Shared-Lib
+	url = https://github.com/antontidev/Shared-Lib
