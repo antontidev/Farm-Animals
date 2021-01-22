@@ -28,7 +28,7 @@ public class JumperLogic : MonoBehaviour, IJumpPlatform {
 
     public bool Available {
         get {
-            return JumpCount != 0;
+            return JumpCount > 0;
         }
     }
 
@@ -41,8 +41,9 @@ public class JumperLogic : MonoBehaviour, IJumpPlatform {
             PlayJumpAnimation();
 
             jumper.Jump(new Vector3(0, force, 0));
+
+            JumpCount--;
         }
-        JumpCount--;
 
         if (!Available) {
             MakeUnavalaibleVisible();

@@ -404,21 +404,13 @@ MonoBehaviour:
   flyTag: {fileID: 11400000, guid: 85fa43b9317c8b040a0ee17bf448b843, type: 2}
   winTag: {fileID: 11400000, guid: fb6212d43d8a7e24c8a1027b4a7897d7, type: 2}
   coinTag: {fileID: 11400000, guid: a7b8a37c5a8114d4ea8f151a5f8c1467, type: 2}
-  interactReached:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: MakeDecision
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   coinReached:
+    m_PersistentCalls:
+      m_Calls: []
+  playerFlying:
+    m_PersistentCalls:
+      m_Calls: []
+  playerWin:
     m_PersistentCalls:
       m_Calls: []
   dead:
