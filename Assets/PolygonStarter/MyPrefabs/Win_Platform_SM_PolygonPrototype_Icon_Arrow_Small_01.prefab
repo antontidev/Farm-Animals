@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4599826787732616824}
   - component: {fileID: 4592708051251087484}
   - component: {fileID: 4582125687899611248}
-  - component: {fileID: 3845471177799906648}
   - component: {fileID: 243738897324714220}
   - component: {fileID: 7067540777562087214}
   m_Layer: 0
@@ -83,19 +82,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &3845471177799906648
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4593973766652546348}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fea4cae5ec4286545b923e635f3d68ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  winParticles: {fileID: 2668203977864051915}
 --- !u!65 &243738897324714220
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -184,12 +170,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6586ff0f14125534cae2f5d8f04b7871, type: 3}
---- !u!1 &2668203977864051915 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 180128, guid: 6586ff0f14125534cae2f5d8f04b7871,
-    type: 3}
-  m_PrefabInstance: {fileID: 2668203977863873387}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2668203977863752347 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 403952, guid: 6586ff0f14125534cae2f5d8f04b7871,
