@@ -1,3 +1,6 @@
 [submodule "Assets/Shared-Lib"]
 	path = Assets/Shared-Lib
 	url = https://github.com/antontidev/Shared-Lib.git
+[submodule "Assets/Plugins/Tags"]
+	path = Assets/Plugins/Tags
+	url = https://github.com/neon-age/Tags.git

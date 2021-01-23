@@ -1,8 +1,8 @@
 {
   "dependencies": {
-    "com.av.tags": "0.1.0",
     "com.google.external-dependency-manager": "1.2.162",
     "com.kelvip.quick-scene-switcher": "1.0.0",
+    "com.unity.2d.sprite": "1.0.0",
     "com.unity.cinemachine": "2.6.3",
     "com.unity.ide.rider": "1.2.1",
     "com.unity.ide.visualstudio": "2.0.5",
@@ -47,14 +47,15 @@
     "com.unity.modules.video": "1.0.0",
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
-    "com.unity.modules.xr": "1.0.0"
+    "com.unity.modules.xr": "1.0.0",
+    "com.domybest.mybox": "1.5.1"
   },
   "scopedRegistries": [
     {
       "name": "package.openupm.com",
       "url": "https://package.openupm.com",
       "scopes": [
-        "com.av.tags",
+        "com.domybest.mybox",
         "com.kelvip.quick-scene-switcher",
         "com.openupm",
         "net.tnrd.codegenerator",

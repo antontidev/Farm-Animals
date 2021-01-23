@@ -18,6 +18,9 @@ public class GameManager : MonoBehaviour, ISimpleGameManager {
     [SerializeField]
     private FadeManager fadeManager;
 
+    [SerializeField]
+    private ProgressBar staminaFlyBar;
+
 
     private void Awake() {
         SceneManager.LoadScene("Shared", LoadSceneMode.Additive);
@@ -49,15 +52,18 @@ public class GameManager : MonoBehaviour, ISimpleGameManager {
     /// </summary>
     /// <param name="coin">Coin GameObject</param>
     public void OnCoinGrab(GameObject coin) {
-        // Temporary
+        var position = coin.transform.position;
+
+        EffectManager.Instance.PlayCoinEffect(position);
+
         coin.SetActive(false);
     }
 
     public void OnWin(Vector3 winPosition) {
-            
+        EffectManager.Instance.PlayWinEffect(winPosition);
     }
 
     public void OnPlayerFlying(float capacity) {
-        
+        staminaFlyBar.ChangeProgress(capacity);
     }
 }

@@ -24,7 +24,7 @@ MonoBehaviour:
     m_Name: package.openupm.com
     m_Url: https://package.openupm.com
     m_Scopes:
-    - com.av.tags
+    - com.domybest.mybox
     - com.kelvip.quick-scene-switcher
     - com.openupm
     - net.tnrd.codegenerator
@@ -45,7 +45,7 @@ MonoBehaviour:
       m_Name: package.openupm.com
       m_Url: https://package.openupm.com
       m_Scopes:
-      - com.av.tags
+      - com.domybest.mybox
       - com.kelvip.quick-scene-switcher
       - com.openupm
       - net.tnrd.codegenerator
@@ -55,7 +55,7 @@ MonoBehaviour:
     m_Name: package.openupm.com
     m_Url: https://package.openupm.com
     m_Scopes:
-    - com.av.tags
+    - com.domybest.mybox
     - com.kelvip.quick-scene-switcher
     - com.openupm
     - net.tnrd.codegenerator

@@ -4,13 +4,13 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using Zenject;
+using MyBox;
+using UniRx;
 
 public interface IJumper {
     void Jump(Vector3 jumpForce);
 
     Vector3 CalculateForce(Transform target);
-
-    bool CanJump();
 }
 
 public interface IMover {
@@ -19,18 +19,23 @@ public interface IMover {
 
 public interface IFlyer {
     void Fly(float capacity);
-
-    IEnumerator WaitForPress();
-
-    IEnumerator StartFly(float capacity);
 }
 
-public class PlayerController : MonoBehaviour, IJumper, IMover, IFlyer
+public interface IHungry {
+}
+
+public class PlayerController : MonoBehaviour, IJumper, IMover, IFlyer, IHungry
 {
     [Inject]
     private IPlayerMover playerMover;
 
-    public float normalizeAngle;
+    [Header("Camera movement")]
+    [SerializeField]
+    private bool cameraRelativeMovement;
+
+    [SerializeField]
+    [ConditionalField("cameraRelativeMovement")]
+    private Camera cam;
 
     [Header("Audio events")]
     [SerializeField]
@@ -47,7 +52,6 @@ public class PlayerController : MonoBehaviour, IJumper, IMover, IFlyer
 
     [Header("Movement")]
     public float movementSpeed = 3;
-    public float timeBeforeNextJump = 1.2f;
 
     [Header("Player components")]
     public Animator anim;
@@ -112,7 +116,12 @@ public class PlayerController : MonoBehaviour, IJumper, IMover, IFlyer
 
     public void Move(Vector3 movement) {
         if (movement != Vector3.zero) {
-            movement = Quaternion.AngleAxis(normalizeAngle, Vector3.up) * movement;
+            //movement = Quaternion.AngleAxis(normalizeAngle, Vector3.up) * movement;
+
+            if (cameraRelativeMovement) {
+                movement = CameraRelativeMovement(movement);
+            }
+
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(movement), 0.30f);
 
             transform.Translate(movement * movementSpeed * Time.deltaTime, Space.World);
@@ -123,6 +132,20 @@ public class PlayerController : MonoBehaviour, IJumper, IMover, IFlyer
         }
 
         anim.SetFloat("Walk", movement.magnitude);
+    }
+
+    private Vector3 CameraRelativeMovement(Vector3 movement) {
+        var camTransform = cam.transform;
+
+        var forward = camTransform.forward;
+        var right = camTransform.right;
+        forward.y = 0f;
+        right.y = 0f;
+
+        forward.Normalize();
+        right.Normalize();
+
+        return forward * movement.z + right * movement.x;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -154,17 +177,11 @@ public class PlayerController : MonoBehaviour, IJumper, IMover, IFlyer
 
     #region Jump
     public void Jump(Vector3 jumpForce) {
-        if (CanJump()) {
-            rb.AddForce(jumpForce);
-            canJump = Time.time + timeBeforeNextJump;
-            anim.SetTrigger("jump");
+        rb.AddForce(jumpForce, ForceMode.Impulse);
+         
+        anim.SetTrigger("jump");
 
-            jumpClip.Play(playerSource);
-        }
-    }
-
-    public bool CanJump() {
-        return Time.time > canJump;
+        jumpClip.Play(playerSource);
     }
     #endregion
 
@@ -172,25 +189,16 @@ public class PlayerController : MonoBehaviour, IJumper, IMover, IFlyer
     public void Fly(float capacity) {
         anim.SetTrigger("wantFly");
 
-        StartCoroutine(FlyCoroutine(capacity));
+        MainThreadDispatcher.StartUpdateMicroCoroutine(FlyCoroutine(capacity));
     }
 
     private IEnumerator FlyCoroutine(float capacity) {
-        yield return WaitForPress();
-
-        yield return StartFly(capacity);
-    }
-
-    public IEnumerator WaitForPress() {
         while (!playerMover.Press) {
-
             yield return null;
         }
-    }
 
-    public IEnumerator StartFly(float capacity) {
         rb.useGravity = false;
-        boxCollider.enabled = false;
+        boxCollider.isTrigger = true;
 
         while (capacity > 0.18f && playerMover.Press) {
             anim.SetFloat("fly", capacity);
@@ -204,13 +212,13 @@ public class PlayerController : MonoBehaviour, IJumper, IMover, IFlyer
             yield return null;
         }
 
-        // Is it really needed?
         anim.SetTrigger("dontWantFly");
         anim.SetFloat("fly", 0);
 
         rb.useGravity = true;
-        boxCollider.enabled = true;
+        boxCollider.isTrigger = false;
     }
+
     #endregion
 
     /// <summary>
