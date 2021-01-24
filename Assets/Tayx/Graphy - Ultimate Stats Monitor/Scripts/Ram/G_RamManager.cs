@@ -9,16 +9,14 @@
  * Attribution is not required, but it is always welcomed!
  * -------------------------------------*/
 
-using UnityEngine;
 using System.Collections.Generic;
 using Tayx.Graphy.UI;
 using Tayx.Graphy.Utils;
+using UnityEngine;
 using UnityEngine.UI;
 
-namespace Tayx.Graphy.Ram
-{
-    public class G_RamManager : MonoBehaviour, IMovable, IModifiableState
-    {
+namespace Tayx.Graphy.Ram {
+    public class G_RamManager : MonoBehaviour, IMovable, IModifiableState {
         /* ----- TODO: ----------------------------
          * Add summaries to the variables.
          * Add summaries to the functions.
@@ -30,37 +28,35 @@ namespace Tayx.Graphy.Ram
 
         #region Variables -> Serialized Private
 
-        [SerializeField] private    GameObject              m_ramGraphGameObject = null;
+        [SerializeField] private GameObject m_ramGraphGameObject = null;
 
-        [SerializeField] private    List<Image>             m_backgroundImages          = new List<Image>();
+        [SerializeField] private List<Image> m_backgroundImages = new List<Image>();
 
         #endregion
 
         #region Variables -> Private
 
-        private                 GraphyManager               m_graphyManager = null;
-        
-        private                 G_RamGraph                  m_ramGraph = null;
-        private                 G_RamText                   m_ramText = null;
+        private GraphyManager m_graphyManager = null;
 
-        private                 RectTransform               m_rectTransform = null;
+        private G_RamGraph m_ramGraph = null;
+        private G_RamText m_ramText = null;
 
-        private                 List<GameObject>            m_childrenGameObjects       = new List<GameObject>();
+        private RectTransform m_rectTransform = null;
 
-        private                 GraphyManager.ModuleState   m_previousModuleState = GraphyManager.ModuleState.FULL;
-        private                 GraphyManager.ModuleState   m_currentModuleState = GraphyManager.ModuleState.FULL;
-        
+        private List<GameObject> m_childrenGameObjects = new List<GameObject>();
+
+        private GraphyManager.ModuleState m_previousModuleState = GraphyManager.ModuleState.FULL;
+        private GraphyManager.ModuleState m_currentModuleState = GraphyManager.ModuleState.FULL;
+
         #endregion
 
         #region Methods -> Unity Callbacks
 
-        private void Awake()
-        {
+        private void Awake() {
             Init();
         }
 
-        private void Start()
-        {
+        private void Start() {
             UpdateParameters();
         }
 
@@ -68,42 +64,40 @@ namespace Tayx.Graphy.Ram
 
         #region Methods -> Public
 
-        public void SetPosition(GraphyManager.ModulePosition newModulePosition)
-        {
+        public void SetPosition(GraphyManager.ModulePosition newModulePosition) {
             float xSideOffset = Mathf.Abs(m_rectTransform.anchoredPosition.x);
             float ySideOffset = Mathf.Abs(m_rectTransform.anchoredPosition.y);
 
-            switch (newModulePosition)
-            {
+            switch (newModulePosition) {
                 case GraphyManager.ModulePosition.TOP_LEFT:
 
-                    m_rectTransform.anchorMax           = Vector2.up;
-                    m_rectTransform.anchorMin           = Vector2.up;
-                    m_rectTransform.anchoredPosition    = new Vector2(xSideOffset, -ySideOffset);
+                    m_rectTransform.anchorMax = Vector2.up;
+                    m_rectTransform.anchorMin = Vector2.up;
+                    m_rectTransform.anchoredPosition = new Vector2(xSideOffset, -ySideOffset);
 
                     break;
 
                 case GraphyManager.ModulePosition.TOP_RIGHT:
 
-                    m_rectTransform.anchorMax           = Vector2.one;
-                    m_rectTransform.anchorMin           = Vector2.one;
-                    m_rectTransform.anchoredPosition    = new Vector2(-xSideOffset, -ySideOffset);
+                    m_rectTransform.anchorMax = Vector2.one;
+                    m_rectTransform.anchorMin = Vector2.one;
+                    m_rectTransform.anchoredPosition = new Vector2(-xSideOffset, -ySideOffset);
 
                     break;
 
                 case GraphyManager.ModulePosition.BOTTOM_LEFT:
 
-                    m_rectTransform.anchorMax           = Vector2.zero;
-                    m_rectTransform.anchorMin           = Vector2.zero;
-                    m_rectTransform.anchoredPosition    = new Vector2(xSideOffset, ySideOffset);
+                    m_rectTransform.anchorMax = Vector2.zero;
+                    m_rectTransform.anchorMin = Vector2.zero;
+                    m_rectTransform.anchoredPosition = new Vector2(xSideOffset, ySideOffset);
 
                     break;
 
                 case GraphyManager.ModulePosition.BOTTOM_RIGHT:
 
-                    m_rectTransform.anchorMax           = Vector2.right;
-                    m_rectTransform.anchorMin           = Vector2.right;
-                    m_rectTransform.anchoredPosition    = new Vector2(-xSideOffset, ySideOffset);
+                    m_rectTransform.anchorMax = Vector2.right;
+                    m_rectTransform.anchorMin = Vector2.right;
+                    m_rectTransform.anchoredPosition = new Vector2(-xSideOffset, ySideOffset);
 
                     break;
 
@@ -112,31 +106,26 @@ namespace Tayx.Graphy.Ram
             }
         }
 
-        public void SetState(GraphyManager.ModuleState state, bool silentUpdate = false)
-        {
-            if (!silentUpdate)
-            {
+        public void SetState(GraphyManager.ModuleState state, bool silentUpdate = false) {
+            if (!silentUpdate) {
                 m_previousModuleState = m_currentModuleState;
             }
 
             m_currentModuleState = state;
 
-            switch (state)
-            {
+            switch (state) {
                 case GraphyManager.ModuleState.FULL:
                     gameObject.SetActive(true);
                     m_childrenGameObjects.SetAllActive(true);
                     SetGraphActive(true);
-                    
-                    if (m_graphyManager.Background)
-                    {
+
+                    if (m_graphyManager.Background) {
                         m_backgroundImages.SetOneActive(0);
                     }
-                    else
-                    {
+                    else {
                         m_backgroundImages.SetAllActive(false);
                     }
-                    
+
                     break;
 
                 case GraphyManager.ModuleState.TEXT:
@@ -144,16 +133,14 @@ namespace Tayx.Graphy.Ram
                     gameObject.SetActive(true);
                     m_childrenGameObjects.SetAllActive(true);
                     SetGraphActive(false);
-                    
-                    if (m_graphyManager.Background)
-                    {
+
+                    if (m_graphyManager.Background) {
                         m_backgroundImages.SetOneActive(1);
                     }
-                    else
-                    {
+                    else {
                         m_backgroundImages.SetAllActive(false);
                     }
-                    
+
                     break;
 
                 case GraphyManager.ModuleState.BACKGROUND:
@@ -171,33 +158,28 @@ namespace Tayx.Graphy.Ram
             }
         }
 
-        public void RestorePreviousState()
-        {
+        public void RestorePreviousState() {
             SetState(m_previousModuleState);
         }
-      
-        public void UpdateParameters()
-        {
-            foreach (var image in m_backgroundImages)
-            {
+
+        public void UpdateParameters() {
+            foreach (var image in m_backgroundImages) {
                 image.color = m_graphyManager.BackgroundColor;
             }
-            
-            m_ramGraph  .UpdateParameters();
-            m_ramText   .UpdateParameters();
-            
+
+            m_ramGraph.UpdateParameters();
+            m_ramText.UpdateParameters();
+
             SetState(m_graphyManager.RamModuleState);
         }
 
-        public void RefreshParameters()
-        {
-            foreach (var image in m_backgroundImages)
-            {
+        public void RefreshParameters() {
+            foreach (var image in m_backgroundImages) {
                 image.color = m_graphyManager.BackgroundColor;
             }
 
-            m_ramGraph  .UpdateParameters();
-            m_ramText   .UpdateParameters();
+            m_ramGraph.UpdateParameters();
+            m_ramText.UpdateParameters();
 
             SetState(m_currentModuleState, true);
         }
@@ -206,26 +188,22 @@ namespace Tayx.Graphy.Ram
 
         #region Methods -> Private
 
-        private void Init()
-        {
+        private void Init() {
             m_graphyManager = transform.root.GetComponentInChildren<GraphyManager>();
 
-            m_ramGraph      = GetComponent<G_RamGraph>();
-            m_ramText       = GetComponent<G_RamText>();
+            m_ramGraph = GetComponent<G_RamGraph>();
+            m_ramText = GetComponent<G_RamText>();
 
             m_rectTransform = GetComponent<RectTransform>();
-            
-            foreach (Transform child in transform)
-            {
-                if (child.parent == transform)
-                {
+
+            foreach (Transform child in transform) {
+                if (child.parent == transform) {
                     m_childrenGameObjects.Add(child.gameObject);
                 }
             }
         }
 
-        private void SetGraphActive(bool active)
-        {
+        private void SetGraphActive(bool active) {
             m_ramGraph.enabled = active;
             m_ramGraphGameObject.SetActive(active);
         }

@@ -1,5 +1,4 @@
-public class TagsProject
-{
+public class TagsProject {
     public Tag ANIMAL = new Tag();
     public Tag INTEREST = new Tag();
     public Tag KILLER = new Tag();

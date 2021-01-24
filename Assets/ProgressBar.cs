@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using DG.Tweening;
+using MyBox;
+using System;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
-using DG;
-using UniRx;
-using DG.Tweening;
-using System;
 
 public interface IProgressShow {
     void ChangeProgress(float value);
@@ -41,8 +39,7 @@ public class SimpleFader : IFader {
     }
 }
 
-public class ProgressBar : MonoBehaviour, IProgressShow
-{
+public class ProgressBar : MonoBehaviour, IProgressShow {
     #region Images
     [SerializeField]
     private Image heroImage;
@@ -58,6 +55,23 @@ public class ProgressBar : MonoBehaviour, IProgressShow
     private Slider progress;
 
     [SerializeField]
+    private bool alwaysVisible;
+
+    public float MaxValue {
+        get {
+            return MaxValue;
+        }
+        set {
+            progress.maxValue = value;
+        }
+    }
+
+    [SerializeField]
+    [ReadOnly]
+    private float value;
+
+    [SerializeField]
+    [ConditionalField("alwaysVisible", true)]
     private float fadeSeconds;
 
     private bool firstChange = true;
@@ -67,43 +81,47 @@ public class ProgressBar : MonoBehaviour, IProgressShow
     private IDisposable everyTwoSeconds;
 
     private void Start() {
-        gameObject.SetActive(false);
+        if (!alwaysVisible) {
+            gameObject.SetActive(false);
 
-        FadeOutImmediately();
+            FadeOutImmediately();
+        }
     }
 
     public void ChangeMaxValue(float maxValue) {
         progress.maxValue = maxValue;
     }
 
-    public void ChangeProgress(float value) {
-        if (everyTwoSeconds != null) {
-            everyTwoSeconds.Dispose();
+    public void ChangeProgress(float newValue) {
+        if (!alwaysVisible) {
+            if (everyTwoSeconds != null) {
+                everyTwoSeconds.Dispose();
+            }
+
+            if (firstChange) {
+                firstChange = false;
+
+                gameObject.SetActive(true);
+
+                FadeIn();
+            }
+
+            everyTwoSeconds = Observable.Timer(TimeSpan.FromSeconds(1.1f)).Subscribe(time => {
+                var sub = Time.time - lastChangeTime;
+
+                if (sub > 1f) {
+                    FadeOut();
+
+                    everyTwoSeconds.Dispose();
+
+                    firstChange = true;
+                }
+            });
         }
 
-        if (firstChange) {
-            firstChange = false;
-
-            gameObject.SetActive(true);
-
-            FadeIn();
-        }
-
-        progress.value = value;
+        progress.value = value = newValue;
 
         lastChangeTime = Time.time;
-
-        everyTwoSeconds = Observable.Timer(TimeSpan.FromSeconds(1.1f)).Subscribe(time => {
-            var sub = Time.time - lastChangeTime;
-
-            if (sub > 1f) {
-                FadeOut();
-
-                everyTwoSeconds.Dispose();
-
-                firstChange = true;
-            }
-        });
     }
 
     private void FadeIn() {

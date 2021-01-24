@@ -1,10 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using SukharevShared;
 using UnityEngine;
-using SukharevShared;
 
-public abstract class AudioEvent : ScriptableObject
-{
+public abstract class AudioEvent : ScriptableObject {
     public AudioClip[] clips;
 
     public RangedFloat volume;

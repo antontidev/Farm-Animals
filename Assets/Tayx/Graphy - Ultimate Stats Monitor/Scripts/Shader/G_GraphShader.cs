@@ -12,68 +12,66 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Tayx.Graphy
-{
+namespace Tayx.Graphy {
     /// <summary>
     /// This class communicates directly with the shader to draw the graphs. Performance here is of upmost importance
     /// to reduce as much overhead as possible, as we are updating hundreds of values every frame.
     /// </summary>
-    public class G_GraphShader
-    {
+    public class G_GraphShader {
         /* ----- TODO: ----------------------------
          * Add summaries to the variables.
          * --------------------------------------*/
 
         #region Variables -> Array
 
-        public const int    ArrayMaxSizeFull            = 512;
-        public const int    ArrayMaxSizeLight           = 128;
+        public const int ArrayMaxSizeFull = 512;
+        public const int ArrayMaxSizeLight = 128;
 
-        public int          ArrayMaxSize                = 128;
+        public int ArrayMaxSize = 128;
 
-        public float[]      Array;                                              // The values
+        public float[] Array;                                              // The values
 
         #endregion
 
         #region Variables -> Image
 
-        public Image        Image                       = null;
+        public Image Image = null;
 
         #endregion
 
         #region Variables -> Name
 
-        private string      Name                        = "GraphValues";        // The name of the array
-        private string      Name_Length                 = "GraphValues_Length";
+        private string Name = "GraphValues";        // The name of the array
+        private string Name_Length = "GraphValues_Length";
 
         #endregion
 
         #region Variables -> Average
 
-        public float        Average                     = 0;
-        private int         averagePropertyId           = 0;
+        public float Average = 0;
+        private int averagePropertyId = 0;
 
         #endregion
 
         #region Variables -> Thresholds
 
-        public float        GoodThreshold               = 0;
-        public float        CautionThreshold            = 0;
+        public float GoodThreshold = 0;
+        public float CautionThreshold = 0;
 
-        private int         goodThresholdPropertyId     = 0;
-        private int         cautionThresholdPropertyId  = 0;
+        private int goodThresholdPropertyId = 0;
+        private int cautionThresholdPropertyId = 0;
 
         #endregion
 
         #region Variables -> Color
 
-        public Color        GoodColor                   = Color.white;
-        public Color        CautionColor                = Color.white;
-        public Color        CriticalColor               = Color.white;
+        public Color GoodColor = Color.white;
+        public Color CautionColor = Color.white;
+        public Color CriticalColor = Color.white;
 
-        private int         goodColorPropertyId         = 0;
-        private int         cautionColorPropertyId      = 0;
-        private int         criticalColorPropertyId     = 0;
+        private int goodColorPropertyId = 0;
+        private int cautionColorPropertyId = 0;
+        private int criticalColorPropertyId = 0;
 
         #endregion
 
@@ -88,50 +86,45 @@ namespace Tayx.Graphy
         /// (if for some reason the shaders reload).
         /// I also cache the Property IDs, that make access faster to modify shader parameters.
         /// </summary>
-        public void InitializeShader()
-        {
+        public void InitializeShader() {
             Image.material.SetFloatArray(Name, new float[ArrayMaxSize]);
 
-            averagePropertyId           = Shader.PropertyToID("Average");
+            averagePropertyId = Shader.PropertyToID("Average");
 
-            goodThresholdPropertyId     = Shader.PropertyToID("_GoodThreshold");
-            cautionThresholdPropertyId  = Shader.PropertyToID("_CautionThreshold");
+            goodThresholdPropertyId = Shader.PropertyToID("_GoodThreshold");
+            cautionThresholdPropertyId = Shader.PropertyToID("_CautionThreshold");
 
-            goodColorPropertyId         = Shader.PropertyToID("_GoodColor");
-            cautionColorPropertyId      = Shader.PropertyToID("_CautionColor");
-            criticalColorPropertyId     = Shader.PropertyToID("_CriticalColor");
+            goodColorPropertyId = Shader.PropertyToID("_GoodColor");
+            cautionColorPropertyId = Shader.PropertyToID("_CautionColor");
+            criticalColorPropertyId = Shader.PropertyToID("_CriticalColor");
         }
 
         /// <summary>
         /// Updates the material linked with this shader graph  with the values in the float[] array.
         /// </summary>
-        public void UpdateArray()
-        {
+        public void UpdateArray() {
             Image.material.SetInt(Name_Length, Array.Length);
         }
 
         /// <summary>
         /// Updates the average parameter in the material.
         /// </summary>
-        public void UpdateAverage()
-        {
+        public void UpdateAverage() {
             Image.material.SetFloat(averagePropertyId, Average);
         }
-        
+
         /// <summary>
         /// Updates the thresholds in the material.
         /// </summary>
-        public void UpdateThresholds()
-        {
+        public void UpdateThresholds() {
             Image.material.SetFloat(goodThresholdPropertyId, GoodThreshold);
             Image.material.SetFloat(cautionThresholdPropertyId, CautionThreshold);
         }
-        
+
         /// <summary>
         /// Updates the colors in the material.
         /// </summary>
-        public void UpdateColors()
-        {
+        public void UpdateColors() {
             Image.material.SetColor(goodColorPropertyId, GoodColor);
             Image.material.SetColor(cautionColorPropertyId, CautionColor);
             Image.material.SetColor(criticalColorPropertyId, CriticalColor);
@@ -140,13 +133,12 @@ namespace Tayx.Graphy
         /// <summary>
         /// Updates the points in the graph with the set array of values.
         /// </summary>
-        public void UpdatePoints()
-        {
+        public void UpdatePoints() {
             // Requires an array called "name"
             // and another one called "name_Length"
 
             Image.material.SetFloatArray(Name, Array);
-         }
+        }
 
         #endregion
     }

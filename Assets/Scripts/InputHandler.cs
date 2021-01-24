@@ -1,66 +1,51 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
+﻿using UnityEngine;
 using Zenject;
-using UniRx;
 
 /// <summary>
 /// So smart
 /// </summary>
-public interface IPlayerMover
-{
-    Vector2 Move
-    {
+public interface IPlayerMover {
+    Vector2 Move {
         get; set;
     }
 
-    bool Jump
-    {
+    bool Jump {
         get; set;
     }
 
-    bool Attack
-    {
+    bool Attack {
         get; set;
     }
 
-    bool Press 
-    {
+    bool Press {
         get; set;
     }
 }
 
-public class KeyboardMover : IPlayerMover
-{
-    public Vector2 Move
-    {
-        get
-        {
+public class KeyboardMover : IPlayerMover {
+    public Vector2 Move {
+        get {
             var horizontal = Input.GetAxisRaw("Horizontal");
             var vertical = Input.GetAxisRaw("Vertical");
 
             return new Vector2(horizontal, vertical);
         }
-        set { }
+        set {
+        }
     }
-    public bool Jump
-    {
-        get
-        {
+    public bool Jump {
+        get {
             return Input.GetAxisRaw("Jump") > 0;
         }
-        set { }
+        set {
+        }
     }
-    public bool Attack
-    {
-        get
-        {
+    public bool Attack {
+        get {
             return Input.GetMouseButtonDown(0);
         }
-        set { }
+        set {
+        }
     }
 
     public bool Press {
@@ -78,35 +63,28 @@ public class KeyboardMover : IPlayerMover
 /// <remarks>
 /// It's value sets in InputHandler class
 /// </remarks>
-public class JoystickMover : IPlayerMover
-{
-    public Vector2 Move
-    {
+public class JoystickMover : IPlayerMover {
+    public Vector2 Move {
         get; set;
     }
 
-    public bool Jump
-    {
+    public bool Jump {
         get; set;
     }
 
-    public bool Attack
-    {
+    public bool Attack {
         get; set;
     }
-    public bool Press 
-    {
+    public bool Press {
         get; set;
     }
 }
 
-public class InputHandler : MonoBehaviour
-{
+public class InputHandler : MonoBehaviour {
     [Inject]
     private IPlayerMover playerMover;
 
-    public void JoystickInput_Changed(Vector2 value)
-    {
+    public void JoystickInput_Changed(Vector2 value) {
         playerMover.Move = value;
     }
 
@@ -114,23 +92,19 @@ public class InputHandler : MonoBehaviour
         playerMover.Press = value;
     }
 
-    public void JoystickButtonA_Clicked()
-    {
+    public void JoystickButtonA_Clicked() {
         playerMover.Attack = true;
     }
 
-    public void JoystickButtonA_Up()
-    {
+    public void JoystickButtonA_Up() {
         playerMover.Attack = false;
     }
 
-    public void JoystickButtonB_Clicked()
-    {
+    public void JoystickButtonB_Clicked() {
         playerMover.Jump = true;
     }
 
-    public void JoystickButtonB_Up()
-    {
+    public void JoystickButtonB_Up() {
         playerMover.Jump = false;
     }
 }

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public interface IPlatform<T> {
     void OnPlatformAction(T flyer);
@@ -18,7 +16,7 @@ public abstract class AbstractPlatform<T> : IPlatform<T> {
 public interface IFlyPlatform {
     void OnTryFly(IFlyer flyer);
 
-    void PlayFlyAnimation(); 
+    void PlayFlyAnimation();
 }
 
 public class FlyerLogic : MonoBehaviour, IFlyPlatform {

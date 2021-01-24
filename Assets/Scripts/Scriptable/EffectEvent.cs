@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public abstract class EffectEvent : ScriptableObject
-{
+public abstract class EffectEvent : ScriptableObject {
     public GameObject effectParticles;
 
     public GameObject LoadedEffect {

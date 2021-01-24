@@ -376,6 +376,8 @@ MonoBehaviour:
   flyClip: {fileID: 11400000, guid: 5e3666af8c64df34bbd91a03836fbc90, type: 2}
   playerSource: {fileID: 4664380758922798718}
   movementSpeed: 3
+  hunger: 150
+  hungerSpeed: 6
   anim: {fileID: 95970164997226778}
   rb: {fileID: 54011750179816588}
   boxCollider: {fileID: 279874645203025219}
@@ -385,10 +387,17 @@ MonoBehaviour:
   flyTag: {fileID: 11400000, guid: 85fa43b9317c8b040a0ee17bf448b843, type: 2}
   winTag: {fileID: 11400000, guid: fb6212d43d8a7e24c8a1027b4a7897d7, type: 2}
   coinTag: {fileID: 11400000, guid: a7b8a37c5a8114d4ea8f151a5f8c1467, type: 2}
+  foodTag: {fileID: 11400000, guid: 865554f7ebf0a8449a1facb6dccaa6dd, type: 2}
   coinReached:
     m_PersistentCalls:
       m_Calls: []
+  foodReached:
+    m_PersistentCalls:
+      m_Calls: []
   playerFlying:
+    m_PersistentCalls:
+      m_Calls: []
+  playerHungerChanged:
     m_PersistentCalls:
       m_Calls: []
   playerWin:
@@ -396,18 +405,7 @@ MonoBehaviour:
       m_Calls: []
   dead:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: Dead
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!95 &95970164997226778
 Animator:
   serializedVersion: 3

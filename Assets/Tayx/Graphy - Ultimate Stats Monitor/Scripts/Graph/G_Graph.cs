@@ -11,10 +11,8 @@
 
 using UnityEngine;
 
-namespace Tayx.Graphy.Graph
-{
-    public abstract class G_Graph : MonoBehaviour
-    {
+namespace Tayx.Graphy.Graph {
+    public abstract class G_Graph : MonoBehaviour {
         /* ----- TODO: ----------------------------
          * 
          * --------------------------------------*/

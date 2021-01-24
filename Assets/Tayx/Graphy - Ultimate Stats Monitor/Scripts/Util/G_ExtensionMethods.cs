@@ -9,14 +9,12 @@
  * Attribution is not required, but it is always welcomed!
  * -------------------------------------*/
 
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
-namespace Tayx.Graphy.Utils
-{
-    public static class G_ExtensionMethods
-    {
+namespace Tayx.Graphy.Utils {
+    public static class G_ExtensionMethods {
         /* ----- TODO: ----------------------------
          * Add summaries to the functions.
          * --------------------------------------*/
@@ -32,30 +30,24 @@ namespace Tayx.Graphy.Utils
         /// <param name="active">
         /// Wether to turn them on or off.
         /// </param>
-        public static List<GameObject> SetAllActive(this List<GameObject> gameObjects, bool active)
-        {
-            foreach (var gameObj in gameObjects)
-            {
+        public static List<GameObject> SetAllActive(this List<GameObject> gameObjects, bool active) {
+            foreach (var gameObj in gameObjects) {
                 gameObj.SetActive(active);
             }
 
             return gameObjects;
         }
 
-        public static List<Image> SetOneActive(this List<Image> images, int active)
-        {
-            for (int i = 0; i < images.Count; i++)
-            {
+        public static List<Image> SetOneActive(this List<Image> images, int active) {
+            for (int i = 0; i < images.Count; i++) {
                 images[i].gameObject.SetActive(i == active);
             }
 
             return images;
         }
-        
-        public static List<Image> SetAllActive(this List<Image> images, bool active)
-        {
-            foreach (var image in images)
-            {
+
+        public static List<Image> SetAllActive(this List<Image> images, bool active) {
+            foreach (var image in images) {
                 image.gameObject.SetActive(active);
             }
 

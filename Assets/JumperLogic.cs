@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using MyBox;
+﻿using MyBox;
+using UnityEngine;
 
 public interface IJumpPlatform {
     bool Available {
@@ -24,7 +24,7 @@ public class JumperLogic : MonoBehaviour, IJumpPlatform {
     [SerializeField]
     private bool infinityJumps;
 
-    [ConditionalField("infinityJumps",true)]
+    [ConditionalField("infinityJumps", true)]
     public int JumpCount = 1;
 
     #endregion

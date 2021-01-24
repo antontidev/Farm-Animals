@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Cinemachine;
 using UnityEngine;
-using Cinemachine;
 
 public class CameraTransform : MonoBehaviour {
     public static CameraTransform Instance;
@@ -16,8 +14,6 @@ public class CameraTransform : MonoBehaviour {
         else if (Instance == this) {
             Destroy(gameObject);
         }
-
-        DontDestroyOnLoad(gameObject);
     }
 
     public Transform GetCameraTransform() {

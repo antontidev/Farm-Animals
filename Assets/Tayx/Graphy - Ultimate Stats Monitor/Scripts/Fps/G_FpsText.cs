@@ -9,14 +9,12 @@
  * Attribution is not required, but it is always welcomed!
  * -------------------------------------*/
 
+using Tayx.Graphy.Utils.NumString;
 using UnityEngine;
 using UnityEngine.UI;
-using Tayx.Graphy.Utils.NumString;
 
-namespace Tayx.Graphy.Fps
-{
-    public class G_FpsText : MonoBehaviour
-    {
+namespace Tayx.Graphy.Fps {
+    public class G_FpsText : MonoBehaviour {
         /* ----- TODO: ----------------------------
          * Add summaries to the variables.
          * Add summaries to the functions.
@@ -26,53 +24,50 @@ namespace Tayx.Graphy.Fps
 
         #region Variables -> Serialized Private
 
-        [SerializeField] private    Text            m_fpsText           = null;
-        [SerializeField] private    Text            m_msText            = null;
+        [SerializeField] private Text m_fpsText = null;
+        [SerializeField] private Text m_msText = null;
 
-        [SerializeField] private    Text            m_avgFpsText        = null;
-        [SerializeField] private    Text            m_minFpsText        = null;
-        [SerializeField] private    Text            m_maxFpsText        = null;
+        [SerializeField] private Text m_avgFpsText = null;
+        [SerializeField] private Text m_minFpsText = null;
+        [SerializeField] private Text m_maxFpsText = null;
 
         #endregion
 
         #region Variables -> Private
 
-        private                     GraphyManager   m_graphyManager     = null;
+        private GraphyManager m_graphyManager = null;
 
-        private                     G_FpsMonitor    m_fpsMonitor        = null;
+        private G_FpsMonitor m_fpsMonitor = null;
 
-        private                     int             m_updateRate        = 4;  // 4 updates per sec.
+        private int m_updateRate = 4;  // 4 updates per sec.
 
-        private                     int             m_frameCount        = 0;
+        private int m_frameCount = 0;
 
-        private                     float           m_deltaTime         = 0f;
+        private float m_deltaTime = 0f;
 
-        private                     float           m_fps               = 0f;
+        private float m_fps = 0f;
 
-        private const               int             m_minFps            = 0;
-        private const               int             m_maxFps            = 10000;
+        private const int m_minFps = 0;
+        private const int m_maxFps = 10000;
 
-        private const               string          m_msStringFormat    = "0.0";
+        private const string m_msStringFormat = "0.0";
 
         #endregion
 
         #region Methods -> Unity Callbacks
 
-        private void Awake()
-        {
+        private void Awake() {
             Init();
         }
 
-        private void Update()
-        {
+        private void Update() {
             m_deltaTime += Time.unscaledDeltaTime;
 
             m_frameCount++;
 
             // Only update texts 'm_updateRate' times per second
 
-            if (m_deltaTime > 1f / m_updateRate)
-            {
+            if (m_deltaTime > 1f / m_updateRate) {
                 m_fps = m_frameCount / m_deltaTime;
 
                 // Update fps and ms
@@ -106,11 +101,10 @@ namespace Tayx.Graphy.Fps
         }
 
         #endregion
-        
+
         #region Methods -> Public
 
-        public void UpdateParameters()
-        {
+        public void UpdateParameters() {
             m_updateRate = m_graphyManager.FpsTextUpdateRate;
         }
 
@@ -130,27 +124,21 @@ namespace Tayx.Graphy.Fps
         /// <param name="fps">
         /// Numeric fps value
         /// </param>
-        private void SetFpsRelatedTextColor(Text text, float fps)
-        {
-            if (fps > m_graphyManager.GoodFPSThreshold)
-            {
+        private void SetFpsRelatedTextColor(Text text, float fps) {
+            if (fps > m_graphyManager.GoodFPSThreshold) {
                 text.color = m_graphyManager.GoodFPSColor;
             }
-            else if (fps > m_graphyManager.CautionFPSThreshold)
-            {
+            else if (fps > m_graphyManager.CautionFPSThreshold) {
                 text.color = m_graphyManager.CautionFPSColor;
             }
-            else
-            {
+            else {
                 text.color = m_graphyManager.CriticalFPSColor;
             }
         }
 
-        private void Init()
-        {
+        private void Init() {
             //TODO: Replace this with one activated from the core and figure out the min value.
-            if (!G_IntString.Inited || G_IntString.MinValue > m_minFps || G_IntString.MaxValue < m_maxFps)
-            {
+            if (!G_IntString.Inited || G_IntString.MinValue > m_minFps || G_IntString.MaxValue < m_maxFps) {
                 G_IntString.Init
                 (
                     minNegativeValue: m_minFps,
@@ -161,7 +149,7 @@ namespace Tayx.Graphy.Fps
             m_graphyManager = transform.root.GetComponentInChildren<GraphyManager>();
 
             m_fpsMonitor = GetComponent<G_FpsMonitor>();
-            
+
             UpdateParameters();
         }
 

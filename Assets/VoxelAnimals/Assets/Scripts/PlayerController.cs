@@ -1,16 +1,13 @@
-﻿using SukharevShared;
-using System;
+﻿using MyBox;
+using SukharevShared;
 using System.Collections;
+using UniRx;
 using UnityEngine;
 using UnityEngine.Events;
 using Zenject;
-using MyBox;
-using UniRx;
 
 public interface IJumper {
     void Jump(Vector3 jumpForce);
-
-    Vector3 CalculateForce(Transform target);
 }
 
 public interface IMover {
@@ -22,10 +19,10 @@ public interface IFlyer {
 }
 
 public interface IHungry {
+    void Eat(float strengh);
 }
 
-public class PlayerController : MonoBehaviour, IJumper, IMover, IFlyer, IHungry
-{
+public class PlayerController : MonoBehaviour, IJumper, IMover, IFlyer, IHungry {
     [Inject]
     private IPlayerMover playerMover;
 
@@ -53,12 +50,18 @@ public class PlayerController : MonoBehaviour, IJumper, IMover, IFlyer, IHungry
     [Header("Movement")]
     public float movementSpeed = 3;
 
+    [Header("Hunger")]
+    [SerializeField]
+    private float hunger;
+
+    [SerializeField]
+    private float hungerSpeed;
+
     [Header("Player components")]
     public Animator anim;
     public Rigidbody rb;
     public BoxCollider boxCollider;
 
-    private float canJump = 0f;
     private bool flying = false;
 
     #region Tags
@@ -80,25 +83,53 @@ public class PlayerController : MonoBehaviour, IJumper, IMover, IFlyer, IHungry
 
     [SerializeField]
     private Tag coinTag;
+
+    [SerializeField]
+    private Tag foodTag;
     #endregion
 
-    // --> Collisions events
+    #region Collisions
     [Header("Collisoin events")]
     public UnityEventGameObject coinReached;
 
+    public UnityEventGameObject foodReached;
+
     public UnityEventFloat playerFlying;
+
+    public UnityEventFloat playerHungerChanged;
 
     public UnityEventVector3 playerWin;
 
     public UnityEvent dead;
+    #endregion
 
-    void Update()
-    {
+    void Update() {
         ControllPlayer();
+        ControlHunger();
     }
 
-    void ControllPlayer()
-    {
+    void ControlHunger() {
+        // Awesome tricks
+        // Кал говна
+        // Rewrite this code
+        if (hunger > 0.2f) {
+            hunger -= Time.deltaTime * hungerSpeed;
+
+            playerHungerChanged?.Invoke(hunger);
+        }
+        else if (hunger == -1f) {
+            anim.SetTrigger("hunger");
+            hunger = 0f;
+        }
+        else if (hunger == 0f) {
+
+        }
+        else {
+            hunger = -1f;
+        }
+    }
+
+    void ControllPlayer() {
         var move = playerMover.Move;
 
         float moveHorizontal = move.x;
@@ -116,8 +147,6 @@ public class PlayerController : MonoBehaviour, IJumper, IMover, IFlyer, IHungry
 
     public void Move(Vector3 movement) {
         if (movement != Vector3.zero) {
-            //movement = Quaternion.AngleAxis(normalizeAngle, Vector3.up) * movement;
-
             if (cameraRelativeMovement) {
                 movement = CameraRelativeMovement(movement);
             }
@@ -148,12 +177,19 @@ public class PlayerController : MonoBehaviour, IJumper, IMover, IFlyer, IHungry
         return forward * movement.z + right * movement.x;
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
+    /// <summary>
+    /// Invokes when hunger is stronger than your fingers
+    /// Invokes when you fall of from platform
+    /// </summary>
+    private void Dead() {
+        dead?.Invoke();
+    }
+
+    private void OnTriggerEnter(Collider other) {
         var gameObj = other.gameObject;
 
         if (gameObj.HasTag(killTag)) {
-            dead?.Invoke();
+            Dead();
         }
         else if (gameObj.HasTag(coinTag)) {
             coinReached?.Invoke(gameObj);
@@ -173,12 +209,19 @@ public class PlayerController : MonoBehaviour, IJumper, IMover, IFlyer, IHungry
         else if (gameObj.HasTag(winTag)) {
             playerWin?.Invoke(transform.position);
         }
+        else if (gameObj.HasTag(foodTag)) {
+            foodReached?.Invoke(gameObj);
+
+            var foodPlatform = gameObj.GetComponent<FoodLogic>() as IFoodPlatform;
+
+            foodPlatform.OnWantEatFood(this);
+        }
     }
 
     #region Jump
     public void Jump(Vector3 jumpForce) {
         rb.AddForce(jumpForce, ForceMode.Impulse);
-         
+
         anim.SetTrigger("jump");
 
         jumpClip.Play(playerSource);
@@ -189,6 +232,7 @@ public class PlayerController : MonoBehaviour, IJumper, IMover, IFlyer, IHungry
     public void Fly(float capacity) {
         anim.SetTrigger("wantFly");
 
+        // This should have better perfomance than Unity Coroutines
         MainThreadDispatcher.StartUpdateMicroCoroutine(FlyCoroutine(capacity));
     }
 
@@ -199,6 +243,7 @@ public class PlayerController : MonoBehaviour, IJumper, IMover, IFlyer, IHungry
 
         rb.useGravity = false;
         boxCollider.isTrigger = true;
+        flying = true;
 
         while (capacity > 0.18f && playerMover.Press) {
             anim.SetFloat("fly", capacity);
@@ -212,32 +257,20 @@ public class PlayerController : MonoBehaviour, IJumper, IMover, IFlyer, IHungry
             yield return null;
         }
 
+        flying = false;
         anim.SetTrigger("dontWantFly");
         anim.SetFloat("fly", 0);
 
         rb.useGravity = true;
         boxCollider.isTrigger = false;
     }
-
     #endregion
 
-    /// <summary>
-    /// Deprecated
-    /// </summary>
-    /// <param name="target"></param>
-    /// <returns></returns>
-    public Vector3 CalculateForce(Transform target) {
-        Vector3 direction = target.position - transform.position;
-        float h = direction.y;
-        direction.y = 0;
-        float distance = direction.magnitude;
-        float a = 45 * Mathf.Deg2Rad;
-        direction.y = distance * Mathf.Tan(a);
-        distance += h / Mathf.Tan(a);
+    #region Eat 
+    public void Eat(float strengh) {
+        hunger += strengh;
 
-        // calculate velocity
-        float velocity = Mathf.Sqrt(distance * Physics.gravity.magnitude / Mathf.Sin(2 * a));
-
-        return velocity * direction.normalized;
+        Debug.Log("Tomato next platform");
     }
+    #endregion
 }

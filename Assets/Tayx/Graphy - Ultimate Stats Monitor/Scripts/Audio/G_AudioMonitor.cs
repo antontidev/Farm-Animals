@@ -12,10 +12,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Tayx.Graphy.Audio
-{
-    public class G_AudioMonitor : MonoBehaviour
-    {
+namespace Tayx.Graphy.Audio {
+    public class G_AudioMonitor : MonoBehaviour {
         /* ----- TODO: ----------------------------
          * Add summaries to the variables.
          * Add summaries to the functions.
@@ -24,22 +22,22 @@ namespace Tayx.Graphy.Audio
 
         #region Variables -> Private
 
-        private const   float                               m_refValue                          = 1f;
+        private const float m_refValue = 1f;
 
-        private         GraphyManager                       m_graphyManager                     = null;
+        private GraphyManager m_graphyManager = null;
 
-        private         AudioListener                       m_audioListener                     = null;
+        private AudioListener m_audioListener = null;
 
-        private         GraphyManager.LookForAudioListener  m_findAudioListenerInCameraIfNull   = GraphyManager.LookForAudioListener.ON_SCENE_LOAD;
+        private GraphyManager.LookForAudioListener m_findAudioListenerInCameraIfNull = GraphyManager.LookForAudioListener.ON_SCENE_LOAD;
 
-        private         FFTWindow                           m_FFTWindow                         = FFTWindow.Blackman;
+        private FFTWindow m_FFTWindow = FFTWindow.Blackman;
 
-        private         int                                 m_spectrumSize                      = 512;
+        private int m_spectrumSize = 512;
 
-        private         float[]                             m_spectrum;
-        private         float[]                             m_spectrumHighestValues;
+        private float[] m_spectrum;
+        private float[] m_spectrumHighestValues;
 
-        private         float                               m_maxDB;
+        private float m_maxDB;
 
         #endregion
 
@@ -48,44 +46,56 @@ namespace Tayx.Graphy.Audio
         /// <summary>
         /// Current audio spectrum from the specified AudioListener.
         /// </summary>
-        public float[] Spectrum                 { get { return m_spectrum; } }
+        public float[] Spectrum {
+            get {
+                return m_spectrum;
+            }
+        }
 
         /// <summary>
         /// Highest audio spectrum from the specified AudioListener in the last few seconds.
         /// </summary>
-        public float[] SpectrumHighestValues    { get { return m_spectrumHighestValues; } }
+        public float[] SpectrumHighestValues {
+            get {
+                return m_spectrumHighestValues;
+            }
+        }
 
         /// <summary>
         /// Maximum DB registered in the current spectrum.
         /// </summary>
-        public float MaxDB                      { get { return m_maxDB; } }
+        public float MaxDB {
+            get {
+                return m_maxDB;
+            }
+        }
 
         /// <summary>
         /// Returns true if there is a reference to the audio listener.
         /// </summary>
-        public bool SpectrumDataAvailable       {  get { return m_audioListener != null;} }
+        public bool SpectrumDataAvailable {
+            get {
+                return m_audioListener != null;
+            }
+        }
 
         #endregion
 
         #region Methods -> Unity Callbacks
 
-        private void Awake()
-        {
+        private void Awake() {
             Init();
         }
 
-        private void Update()
-        {
-            if (m_audioListener != null)
-            {
+        private void Update() {
+            if (m_audioListener != null) {
                 // Use this data to calculate the dB value
 
                 AudioListener.GetOutputData(m_spectrum, 0);
 
                 float sum = 0;
 
-                for (int i = 0; i < m_spectrum.Length; i++)
-                {
+                for (int i = 0; i < m_spectrum.Length; i++) {
                     sum += m_spectrum[i] * m_spectrum[i]; // sum squared samples
                 }
 
@@ -93,23 +103,21 @@ namespace Tayx.Graphy.Audio
 
                 m_maxDB = 20 * Mathf.Log10(rmsValue / m_refValue); // calculate dB
 
-                if (m_maxDB < -80) m_maxDB = -80; // clamp it to -80dB min
+                if (m_maxDB < -80)
+                    m_maxDB = -80; // clamp it to -80dB min
 
                 // Use this data to draw the spectrum in the graphs
 
                 AudioListener.GetSpectrumData(m_spectrum, 0, m_FFTWindow);
 
-                for (int i = 0; i < m_spectrum.Length; i++)
-                {
+                for (int i = 0; i < m_spectrum.Length; i++) {
                     // Update the highest value if its lower than the current one
-                    if (m_spectrum[i] > m_spectrumHighestValues[i])
-                    {
+                    if (m_spectrum[i] > m_spectrumHighestValues[i]) {
                         m_spectrumHighestValues[i] = m_spectrum[i];
                     }
 
                     // Slowly lower the value 
-                    else
-                    {
+                    else {
                         m_spectrumHighestValues[i] = Mathf.Clamp
                         (
                             value: m_spectrumHighestValues[i] - m_spectrumHighestValues[i] * Time.deltaTime * 2,
@@ -119,15 +127,13 @@ namespace Tayx.Graphy.Audio
                     }
                 }
             }
-            else if(     m_audioListener == null 
-                     &&  m_findAudioListenerInCameraIfNull == GraphyManager.LookForAudioListener.ALWAYS)
-            {
+            else if (m_audioListener == null
+                     && m_findAudioListenerInCameraIfNull == GraphyManager.LookForAudioListener.ALWAYS) {
                 m_audioListener = FindAudioListener();
             }
         }
 
-        private void OnDestroy()
-        {
+        private void OnDestroy() {
             UnityEngine.SceneManagement.SceneManager.sceneLoaded -= OnSceneLoaded;
         }
 
@@ -135,21 +141,19 @@ namespace Tayx.Graphy.Audio
 
         #region Methods -> Public
 
-        public void UpdateParameters()
-        {
-            m_findAudioListenerInCameraIfNull   = m_graphyManager.FindAudioListenerInCameraIfNull;
+        public void UpdateParameters() {
+            m_findAudioListenerInCameraIfNull = m_graphyManager.FindAudioListenerInCameraIfNull;
 
-            m_audioListener                     = m_graphyManager.AudioListener;
-            m_FFTWindow                         = m_graphyManager.FftWindow;
-            m_spectrumSize                      = m_graphyManager.SpectrumSize;
+            m_audioListener = m_graphyManager.AudioListener;
+            m_FFTWindow = m_graphyManager.FftWindow;
+            m_spectrumSize = m_graphyManager.SpectrumSize;
 
             if (m_audioListener == null
-                    && m_findAudioListenerInCameraIfNull != GraphyManager.LookForAudioListener.NEVER)
-            {
+                    && m_findAudioListenerInCameraIfNull != GraphyManager.LookForAudioListener.NEVER) {
                 m_audioListener = FindAudioListener();
             }
 
-            m_spectrum              = new float[m_spectrumSize];
+            m_spectrum = new float[m_spectrumSize];
             m_spectrumHighestValues = new float[m_spectrumSize];
         }
 
@@ -158,8 +162,7 @@ namespace Tayx.Graphy.Audio
         /// </summary>
         /// <param name="linear"></param>
         /// <returns></returns>
-        public float lin2dB(float linear)
-        {
+        public float lin2dB(float linear) {
             return Mathf.Clamp(Mathf.Log10(linear) * 20.0f, -160.0f, 0.0f);
         }
 
@@ -168,8 +171,7 @@ namespace Tayx.Graphy.Audio
         /// </summary>
         /// <param name="db"></param>
         /// <returns></returns>
-        public float dBNormalized(float db)
-        {
+        public float dBNormalized(float db) {
             return (db + 160f) / 160f;
         }
 
@@ -180,32 +182,26 @@ namespace Tayx.Graphy.Audio
         /// <summary>
         /// Tries to find an audio listener in the main camera.
         /// </summary>
-        private AudioListener FindAudioListener()
-        {
+        private AudioListener FindAudioListener() {
             Camera mainCamera = Camera.main;
 
-            if (mainCamera != null)
-            {
+            if (mainCamera != null) {
                 return mainCamera.GetComponent<AudioListener>();
             }
-            else
-            {
+            else {
                 return null;
             }
         }
 
-        private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
-        {
-            if (m_findAudioListenerInCameraIfNull == GraphyManager.LookForAudioListener.ON_SCENE_LOAD)
-            {
+        private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode) {
+            if (m_findAudioListenerInCameraIfNull == GraphyManager.LookForAudioListener.ON_SCENE_LOAD) {
                 m_audioListener = FindAudioListener();
             }
         }
 
-        private void Init()
-        {
+        private void Init() {
             m_graphyManager = transform.root.GetComponentInChildren<GraphyManager>();
-            
+
             UpdateParameters();
 
             UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;

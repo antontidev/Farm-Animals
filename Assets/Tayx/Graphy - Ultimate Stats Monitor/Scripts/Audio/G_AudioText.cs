@@ -9,14 +9,12 @@
  * Attribution is not required, but it is always welcomed!
  * -------------------------------------*/
 
+using Tayx.Graphy.Utils.NumString;
 using UnityEngine;
 using UnityEngine.UI;
-using Tayx.Graphy.Utils.NumString;
 
-namespace Tayx.Graphy.Audio
-{
-    public class G_AudioText : MonoBehaviour
-    {
+namespace Tayx.Graphy.Audio {
+    public class G_AudioText : MonoBehaviour {
         /* ----- TODO: ----------------------------
          * Add summaries to the variables.
          * Add summaries to the functions.
@@ -26,41 +24,36 @@ namespace Tayx.Graphy.Audio
 
         #region Variables -> Serialized Private
 
-        [SerializeField] private    Text            m_DBText            = null;
+        [SerializeField] private Text m_DBText = null;
 
         #endregion
 
         #region Variables -> Private
 
-        private                     GraphyManager   m_graphyManager     = null;
+        private GraphyManager m_graphyManager = null;
 
-        private                     G_AudioMonitor  m_audioMonitor      = null;
+        private G_AudioMonitor m_audioMonitor = null;
 
-        private                     int             m_updateRate        = 4;
+        private int m_updateRate = 4;
 
-        private                     float           m_deltaTimeOffset   = 0;
+        private float m_deltaTimeOffset = 0;
 
         #endregion
 
         #region Methods -> Unity Callbacks
 
-        private void Awake()
-        {
+        private void Awake() {
             Init();
         }
 
-        private void Update()
-        {
-            if (m_audioMonitor.SpectrumDataAvailable)
-            {
-                if (m_deltaTimeOffset > 1f / m_updateRate)
-                {
+        private void Update() {
+            if (m_audioMonitor.SpectrumDataAvailable) {
+                if (m_deltaTimeOffset > 1f / m_updateRate) {
                     m_deltaTimeOffset = 0f;
 
                     m_DBText.text = Mathf.Clamp(m_audioMonitor.MaxDB, -80f, 0f).ToStringNonAlloc();
                 }
-                else
-                {
+                else {
                     m_deltaTimeOffset += Time.deltaTime;
                 }
             }
@@ -70,8 +63,7 @@ namespace Tayx.Graphy.Audio
 
         #region Methods -> Public
 
-        public void UpdateParameters()
-        {
+        public void UpdateParameters() {
             m_updateRate = m_graphyManager.AudioTextUpdateRate;
         }
 
@@ -79,11 +71,9 @@ namespace Tayx.Graphy.Audio
 
         #region Methods -> Private
 
-        private void Init()
-        {
+        private void Init() {
             //TODO: Replace this with one activated from the core and figure out the min value.
-            if (!G_FloatString.Inited || G_FloatString.MinValue > -1000f || G_FloatString.MaxValue < 16384f)
-            {
+            if (!G_FloatString.Inited || G_FloatString.MinValue > -1000f || G_FloatString.MaxValue < 16384f) {
                 G_FloatString.Init
                 (
                     minNegativeValue: -1001f,
@@ -94,7 +84,7 @@ namespace Tayx.Graphy.Audio
             m_graphyManager = transform.root.GetComponentInChildren<GraphyManager>();
 
             m_audioMonitor = GetComponent<G_AudioMonitor>();
-                       
+
             UpdateParameters();
         }
 

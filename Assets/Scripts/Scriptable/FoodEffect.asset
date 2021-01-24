@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21668fb7d4ed4a94e91d4537c79a9c4f, type: 3}
+  m_Name: FoodEffect
+  m_EditorClassIdentifier: 
+  effectParticles: {fileID: 8621645868945933143, guid: 4b7c2dc0ae700c443b7d100aed64d95d,
+    type: 3}

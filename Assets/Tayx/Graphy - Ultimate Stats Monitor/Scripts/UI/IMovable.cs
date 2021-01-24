@@ -9,10 +9,8 @@
  * Attribution is not required, but it is always welcomed!
  * -------------------------------------*/
 
-namespace Tayx.Graphy.UI
-{
-    public interface IMovable
-    {
+namespace Tayx.Graphy.UI {
+    public interface IMovable {
         /* ----- TODO: ----------------------------
          * 
          * --------------------------------------*/

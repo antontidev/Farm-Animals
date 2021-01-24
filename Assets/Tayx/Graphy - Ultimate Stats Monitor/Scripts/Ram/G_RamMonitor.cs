@@ -15,10 +15,8 @@ using UnityEngine;
 using UnityEngine.Profiling;
 #endif
 
-namespace Tayx.Graphy.Ram
-{
-    public class G_RamMonitor : MonoBehaviour
-    {
+namespace Tayx.Graphy.Ram {
+    public class G_RamMonitor : MonoBehaviour {
         /* ----- TODO: ----------------------------
          * Add summaries to the variables.
          * Add summaries to the functions.
@@ -26,28 +24,39 @@ namespace Tayx.Graphy.Ram
 
         #region Variables -> Private
 
-        private float m_allocatedRam    = 0;
-        private float m_reservedRam     = 0;
-        private float m_monoRam         = 0;
+        private float m_allocatedRam = 0;
+        private float m_reservedRam = 0;
+        private float m_monoRam = 0;
 
         #endregion
 
         #region Properties -> Public
 
-        public float AllocatedRam   { get { return m_allocatedRam; } }
-        public float ReservedRam    { get { return m_reservedRam; } }
-        public float MonoRam        { get { return m_monoRam; } }
-        
+        public float AllocatedRam {
+            get {
+                return m_allocatedRam;
+            }
+        }
+        public float ReservedRam {
+            get {
+                return m_reservedRam;
+            }
+        }
+        public float MonoRam {
+            get {
+                return m_monoRam;
+            }
+        }
+
         #endregion
 
         #region Methods -> Unity Callbacks
 
-        private void Update()
-        {
+        private void Update() {
 #if UNITY_5_6_OR_NEWER
-            m_allocatedRam  = Profiler.GetTotalAllocatedMemoryLong()/ 1048576f;
-            m_reservedRam   = Profiler.GetTotalReservedMemoryLong() / 1048576f;
-            m_monoRam       = Profiler.GetMonoUsedSizeLong()        / 1048576f;
+            m_allocatedRam = Profiler.GetTotalAllocatedMemoryLong() / 1048576f;
+            m_reservedRam = Profiler.GetTotalReservedMemoryLong() / 1048576f;
+            m_monoRam = Profiler.GetMonoUsedSizeLong() / 1048576f;
 #else
             m_allocatedRam  = Profiler.GetTotalAllocatedMemory()    / 1048576f;
             m_reservedRam   = Profiler.GetTotalReservedMemory()     / 1048576f;

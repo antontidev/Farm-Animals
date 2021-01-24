@@ -11,10 +11,8 @@
 
 using UnityEngine;
 
-namespace Tayx.Graphy.Utils.NumString
-{
-    public static class G_FloatString
-    {
+namespace Tayx.Graphy.Utils.NumString {
+    public static class G_FloatString {
         /* ----- TODO: ----------------------------
          * Try and move the Init to a core method.
          * Try and replace the Pow function with a better algorithm.
@@ -25,22 +23,22 @@ namespace Tayx.Graphy.Utils.NumString
         /// <summary>
         /// Float represented as a string, formatted.
         /// </summary>
-        private const   string      floatFormat         = "0.0";
+        private const string floatFormat = "0.0";
 
         /// <summary>
         /// The currently defined, globally used decimal multiplier.
         /// </summary>
-        private static  float       decimalMultiplier   = 1f;
+        private static float decimalMultiplier = 1f;
 
         /// <summary>
         /// List of negative floats casted to strings.
         /// </summary>
-        private static  string[]    negativeBuffer      = new string[0];
+        private static string[] negativeBuffer = new string[0];
 
         /// <summary>
         /// List of positive floats casted to strings.
         /// </summary>
-        private static  string[]    positiveBuffer      = new string[0];
+        private static string[] positiveBuffer = new string[0];
 
         #endregion
 
@@ -49,10 +47,8 @@ namespace Tayx.Graphy.Utils.NumString
         /// <summary>
         /// Have the int buffers been initialized?
         /// </summary>
-        public static bool Inited
-        {
-            get
-            {
+        public static bool Inited {
+            get {
                 return negativeBuffer.Length > 0 || positiveBuffer.Length > 0;
             }
         }
@@ -60,10 +56,8 @@ namespace Tayx.Graphy.Utils.NumString
         /// <summary>
         /// The lowest float value of the existing number buffer.
         /// </summary>
-        public static float MinValue
-        {
-            get
-            {
+        public static float MinValue {
+            get {
                 return -(negativeBuffer.Length - 1).FromIndex();
             }
         }
@@ -71,10 +65,8 @@ namespace Tayx.Graphy.Utils.NumString
         /// <summary>
         /// The highest float value of the existing number buffer.
         /// </summary>
-        public static float MaxValue
-        {
-            get
-            {
+        public static float MaxValue {
+            get {
                 return (positiveBuffer.Length - 1).FromIndex();
             }
         }
@@ -96,27 +88,22 @@ namespace Tayx.Graphy.Utils.NumString
         /// <param name="decimals">
         /// How many decimals will the values use?
         /// </param>
-        public static void Init(float minNegativeValue, float maxPositiveValue, int decimals = 1)
-        {
+        public static void Init(float minNegativeValue, float maxPositiveValue, int decimals = 1) {
             decimalMultiplier = Pow(10, Mathf.Clamp(decimals, 1, 5));
 
             int negativeLength = minNegativeValue.ToIndex();
             int positiveLength = maxPositiveValue.ToIndex();
 
-            if (negativeLength >= 0)
-            {
+            if (negativeLength >= 0) {
                 negativeBuffer = new string[negativeLength];
-                for (int i = 0; i < negativeLength; i++)
-                {
+                for (int i = 0; i < negativeLength; i++) {
                     negativeBuffer[i] = (-i).FromIndex().ToString(floatFormat);
                 }
             }
 
-            if (positiveLength >= 0)
-            {
+            if (positiveLength >= 0) {
                 positiveBuffer = new string[positiveLength];
-                for (int i = 0; i < positiveLength; i++)
-                {
+                for (int i = 0; i < positiveLength; i++) {
                     positiveBuffer[i] = i.FromIndex().ToString(floatFormat);
                 }
             }
@@ -131,17 +118,14 @@ namespace Tayx.Graphy.Utils.NumString
         /// <returns>
         /// A cached number string.
         /// </returns>
-        public static string ToStringNonAlloc(this float value)
-        {
+        public static string ToStringNonAlloc(this float value) {
             int valIndex = value.ToIndex();
 
-            if (value < 0 && valIndex < negativeBuffer.Length)
-            {
+            if (value < 0 && valIndex < negativeBuffer.Length) {
                 return negativeBuffer[valIndex];
             }
 
-            if (value >= 0 && valIndex < positiveBuffer.Length)
-            {
+            if (value >= 0 && valIndex < positiveBuffer.Length) {
                 return positiveBuffer[valIndex];
             }
 
@@ -158,17 +142,14 @@ namespace Tayx.Graphy.Utils.NumString
         /// <returns>
         /// A cached number string.
         /// </returns>
-        public static string ToStringNonAlloc(this float value, string format)
-        {
+        public static string ToStringNonAlloc(this float value, string format) {
             int valIndex = value.ToIndex();
 
-            if (value < 0 && valIndex < negativeBuffer.Length)
-            {
+            if (value < 0 && valIndex < negativeBuffer.Length) {
                 return negativeBuffer[valIndex];
             }
 
-            if (value >= 0 && valIndex < positiveBuffer.Length)
-            {
+            if (value >= 0 && valIndex < positiveBuffer.Length) {
                 return positiveBuffer[valIndex];
             }
 
@@ -184,8 +165,7 @@ namespace Tayx.Graphy.Utils.NumString
         /// <returns>
         /// The given float as an int.
         /// </returns>
-        public static int ToInt(this float f)
-        {
+        public static int ToInt(this float f) {
             return (int)f;
         }
 
@@ -198,8 +178,7 @@ namespace Tayx.Graphy.Utils.NumString
         /// <returns>
         /// The given int as a float.
         /// </returns>
-        public static float ToFloat(this int i)
-        {
+        public static float ToFloat(this int i) {
             return (float)i;
         }
 
@@ -208,22 +187,18 @@ namespace Tayx.Graphy.Utils.NumString
         #region Methods -> Private
 
         //TODO: Replace this with a better algorithm.
-        private static int Pow(int f, int p)
-        {
-            for (int i = 1; i < p; i++)
-            {
+        private static int Pow(int f, int p) {
+            for (int i = 1; i < p; i++) {
                 f *= f;
             }
             return f;
         }
 
-        private static int ToIndex(this float f)
-        {
+        private static int ToIndex(this float f) {
             return Mathf.Abs((f * decimalMultiplier).ToInt());
         }
 
-        private static float FromIndex(this int i)
-        {
+        private static float FromIndex(this int i) {
             return (i.ToFloat() / decimalMultiplier);
         }
 

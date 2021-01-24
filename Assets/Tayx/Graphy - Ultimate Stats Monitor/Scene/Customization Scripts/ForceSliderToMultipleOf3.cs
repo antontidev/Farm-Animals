@@ -12,12 +12,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-using System.Collections;
-
-namespace Tayx.Graphy.CustomizationScene
-{
-	public class ForceSliderToMultipleOf3 : MonoBehaviour
-	{
+namespace Tayx.Graphy.CustomizationScene {
+    public class ForceSliderToMultipleOf3 : MonoBehaviour {
         /* ----- TODO: ----------------------------
          * Check if we can seal this class.
          * Add summaries to the variables.
@@ -34,27 +30,24 @@ namespace Tayx.Graphy.CustomizationScene
 
         #region Methods -> Unity Callbacks
 
-        void Start()
-		{
-			m_slider.onValueChanged.AddListener(UpdateValue);
-		}
+        void Start() {
+            m_slider.onValueChanged.AddListener(UpdateValue);
+        }
 
         #endregion
 
         #region Methods -> Private
 
-        private void UpdateValue(float value)
-		{
-			int roundedValue = (int)value;
-			
-			// Forces the value to be a multiple of 3, this way the audio graph is painted correctly
-			if (roundedValue % 3 != 0 && roundedValue < 300)
-			{
-				roundedValue += 3 - roundedValue % 3;
-			}
+        private void UpdateValue(float value) {
+            int roundedValue = (int)value;
 
-			m_slider.value = roundedValue;
-		}
+            // Forces the value to be a multiple of 3, this way the audio graph is painted correctly
+            if (roundedValue % 3 != 0 && roundedValue < 300) {
+                roundedValue += 3 - roundedValue % 3;
+            }
+
+            m_slider.value = roundedValue;
+        }
 
         #endregion
     }

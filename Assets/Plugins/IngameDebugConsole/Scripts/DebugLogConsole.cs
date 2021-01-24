@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Reflection;
 using System.Text;
 using Object = UnityEngine.Object;
@@ -109,30 +110,78 @@ namespace IngameDebugConsole
 		// Command parameter delimeter groups
 		private static readonly string[] inputDelimiters = new string[] { "\"\"", "''", "{}", "()", "[]" };
 
+		// CompareInfo used for case-insensitive command name comparison
+		private static readonly CompareInfo caseInsensitiveComparer = new CultureInfo( "en-US" ).CompareInfo;
+
 		static DebugLogConsole()
 		{
 #if UNITY_EDITOR || !NETFX_CORE
-			// Load commands in most common Unity assemblies
-			HashSet<Assembly> assemblies = new HashSet<Assembly> { Assembly.GetAssembly( typeof( DebugLogConsole ) ) };
-			try
+			// Find all [ConsoleMethod] functions
+			// Don't search built-in assemblies for console methods since they can't have any
+			string[] ignoredAssemblies = new string[]
 			{
-				assemblies.Add( Assembly.Load( "Assembly-CSharp" ) );
-			}
-			catch { }
+				"Unity",
+				"System",
+				"Mono.",
+				"mscorlib",
+				"netstandard",
+				"TextMeshPro",
+				"Microsoft.GeneratedCode",
+				"I18N",
+				"Boo.",
+				"UnityScript.",
+				"ICSharpCode.",
+				"ExCSS.Unity",
+#if UNITY_EDITOR
+				"Assembly-CSharp-Editor",
+				"Assembly-UnityScript-Editor",
+				"nunit.",
+				"SyntaxTree.",
+				"AssetStoreTools",
+#endif
+			};
 
-			foreach( var assembly in assemblies )
+			foreach( Assembly assembly in AppDomain.CurrentDomain.GetAssemblies() )
 			{
-				foreach( var type in assembly.GetExportedTypes() )
+#if NET_4_6 || NET_STANDARD_2_0
+				if( assembly.IsDynamic )
+					continue;
+#endif
+
+				string assemblyName = assembly.GetName().Name;
+				bool ignoreAssembly = false;
+				for( int i = 0; i < ignoredAssemblies.Length; i++ )
 				{
-					foreach( var method in type.GetMethods( BindingFlags.Static | BindingFlags.Public | BindingFlags.DeclaredOnly ) )
+					if( caseInsensitiveComparer.IsPrefix( assemblyName, ignoredAssemblies[i], CompareOptions.IgnoreCase ) )
 					{
-						foreach( var attribute in method.GetCustomAttributes( typeof( ConsoleMethodAttribute ), false ) )
+						ignoreAssembly = true;
+						break;
+					}
+				}
+
+				if( ignoreAssembly )
+					continue;
+
+				try
+				{
+					foreach( Type type in assembly.GetExportedTypes() )
+					{
+						foreach( MethodInfo method in type.GetMethods( BindingFlags.Static | BindingFlags.Public | BindingFlags.DeclaredOnly ) )
 						{
-							ConsoleMethodAttribute consoleMethod = attribute as ConsoleMethodAttribute;
-							if( consoleMethod != null )
-								AddCommand( consoleMethod.Command, consoleMethod.Description, method );
+							foreach( object attribute in method.GetCustomAttributes( typeof( ConsoleMethodAttribute ), false ) )
+							{
+								ConsoleMethodAttribute consoleMethod = attribute as ConsoleMethodAttribute;
+								if( consoleMethod != null )
+									AddCommand( consoleMethod.Command, consoleMethod.Description, method );
+							}
 						}
 					}
+				}
+				catch( NotSupportedException ) { }
+				catch( System.IO.FileNotFoundException ) { }
+				catch( Exception e )
+				{
+					Debug.LogError( "Couldn't search assembly for [ConsoleMethod] attributes: " + assemblyName + "\n" + e.ToString() );
 				}
 			}
 #endif
@@ -361,9 +410,9 @@ namespace IngameDebugConsole
 				int commandFirstIndex = commandIndex;
 				int commandLastIndex = commandIndex;
 
-				while( commandFirstIndex > 0 && methods[commandFirstIndex - 1].command == command )
+				while( commandFirstIndex > 0 && caseInsensitiveComparer.Compare( methods[commandFirstIndex - 1].command, command, CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace ) == 0 )
 					commandFirstIndex--;
-				while( commandLastIndex < methods.Count - 1 && methods[commandLastIndex + 1].command == command )
+				while( commandLastIndex < methods.Count - 1 && caseInsensitiveComparer.Compare( methods[commandLastIndex + 1].command, command, CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace ) == 0 )
 					commandLastIndex++;
 
 				commandIndex = commandFirstIndex;
@@ -393,29 +442,6 @@ namespace IngameDebugConsole
 								continue;
 							}
 						}
-					}
-				}
-			}
-
-			// Check if this command has been registered before and if it is, overwrite that command
-			for( int i = methods.Count - 1; i >= 0; i-- )
-			{
-				if( !methods[i].IsValid() )
-				{
-					methods.RemoveAt( i );
-					continue;
-				}
-
-				if( methods[i].command == command && methods[i].parameterTypes.Length == parameterTypes.Length )
-				{
-					int j = 0;
-					while( j < parameterTypes.Length && parameterTypes[j] == methods[i].parameterTypes[j] )
-						j++;
-
-					if( j >= parameterTypes.Length )
-					{
-						methods.RemoveAt( i );
-						break;
 					}
 				}
 			}
@@ -458,7 +484,7 @@ namespace IngameDebugConsole
 			{
 				for( int i = methods.Count - 1; i >= 0; i-- )
 				{
-					if( methods[i].command == command )
+					if( caseInsensitiveComparer.Compare( methods[i].command, command, CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace ) == 0 )
 						methods.RemoveAt( i );
 				}
 			}
@@ -497,12 +523,12 @@ namespace IngameDebugConsole
 				commandIndex = ~commandIndex;
 
 			string result = null;
-			for( int i = commandIndex; i >= 0 && methods[i].command.StartsWith( commandStart ); i-- )
+			for( int i = commandIndex; i >= 0 && caseInsensitiveComparer.IsPrefix( methods[i].command, commandStart, CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace ); i-- )
 				result = methods[i].command;
 
 			if( result == null )
 			{
-				for( int i = commandIndex + 1; i < methods.Count && methods[i].command.StartsWith( commandStart ); i++ )
+				for( int i = commandIndex + 1; i < methods.Count && caseInsensitiveComparer.IsPrefix( methods[i].command, commandStart, CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace ); i++ )
 					result = methods[i].command;
 			}
 
@@ -533,9 +559,9 @@ namespace IngameDebugConsole
 				string _command = commandArguments[0];
 
 				int commandLastIndex = commandIndex;
-				while( commandIndex > 0 && methods[commandIndex - 1].command == _command )
+				while( commandIndex > 0 && caseInsensitiveComparer.Compare( methods[commandIndex - 1].command, _command, CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace ) == 0 )
 					commandIndex--;
-				while( commandLastIndex < methods.Count - 1 && methods[commandLastIndex + 1].command == _command )
+				while( commandLastIndex < methods.Count - 1 && caseInsensitiveComparer.Compare( methods[commandLastIndex + 1].command, _command, CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace ) == 0 )
 					commandLastIndex++;
 
 				while( commandIndex <= commandLastIndex )
@@ -670,7 +696,7 @@ namespace IngameDebugConsole
 						commandNameFullyTyped = command.Length > endIndex;
 
 						int commandNameLength = endIndex - i - 1;
-						if( commandName == null || commandNameLength == 0 || commandName.Length != commandNameLength || command.IndexOf( commandName, i + 1, commandNameLength ) != i + 1 )
+						if( commandName == null || commandNameLength == 0 || commandName.Length != commandNameLength || caseInsensitiveComparer.IndexOf( command, commandName, i + 1, commandNameLength, CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace ) != i + 1 )
 							commandName = command.Substring( i + 1, commandNameLength );
 					}
 
@@ -686,7 +712,7 @@ namespace IngameDebugConsole
 						commandNameFullyTyped = command.Length > endIndex;
 
 						int commandNameLength = command[endIndex - 1] == ',' ? endIndex - 1 - i : endIndex - i;
-						if( commandName == null || commandNameLength == 0 || commandName.Length != commandNameLength || command.IndexOf( commandName, i, commandNameLength ) != i )
+						if( commandName == null || commandNameLength == 0 || commandName.Length != commandNameLength || caseInsensitiveComparer.IndexOf( command, commandName, i, commandNameLength, CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace ) != i )
 							commandName = command.Substring( i, commandNameLength );
 					}
 
@@ -710,11 +736,11 @@ namespace IngameDebugConsole
 				if( !commandNameFullyTyped )
 				{
 					// Match all commands that start with commandName
-					if( commandIndex < methods.Count && methods[commandIndex].command.StartsWith( commandName ) )
+					if( commandIndex < methods.Count && caseInsensitiveComparer.IsPrefix( methods[commandIndex].command, commandName, CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace ) )
 					{
-						while( commandIndex > 0 && methods[commandIndex - 1].command.StartsWith( commandName ) )
+						while( commandIndex > 0 && caseInsensitiveComparer.IsPrefix( methods[commandIndex - 1].command, commandName, CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace ) )
 							commandIndex--;
-						while( commandLastIndex < methods.Count - 1 && methods[commandLastIndex + 1].command.StartsWith( commandName ) )
+						while( commandLastIndex < methods.Count - 1 && caseInsensitiveComparer.IsPrefix( methods[commandLastIndex + 1].command, commandName, CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace ) )
 							commandLastIndex++;
 					}
 					else
@@ -723,11 +749,11 @@ namespace IngameDebugConsole
 				else
 				{
 					// Match only the commands that are equal to commandName
-					if( commandIndex < methods.Count && methods[commandIndex].command == commandName )
+					if( commandIndex < methods.Count && caseInsensitiveComparer.Compare( methods[commandIndex].command, commandName, CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace ) == 0 )
 					{
-						while( commandIndex > 0 && methods[commandIndex - 1].command == commandName )
+						while( commandIndex > 0 && caseInsensitiveComparer.Compare( methods[commandIndex - 1].command, commandName, CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace ) == 0 )
 							commandIndex--;
-						while( commandLastIndex < methods.Count - 1 && methods[commandLastIndex + 1].command == commandName )
+						while( commandLastIndex < methods.Count - 1 && caseInsensitiveComparer.Compare( methods[commandLastIndex + 1].command, commandName, CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace ) == 0 )
 							commandLastIndex++;
 					}
 					else
@@ -792,7 +818,7 @@ namespace IngameDebugConsole
 			while( min <= max )
 			{
 				int mid = ( min + max ) / 2;
-				int comparison = command.CompareTo( methods[mid].command );
+				int comparison = caseInsensitiveComparer.Compare( command, methods[mid].command, CompareOptions.IgnoreCase | CompareOptions.IgnoreNonSpace );
 				if( comparison == 0 )
 					return mid;
 				else if( comparison < 0 )

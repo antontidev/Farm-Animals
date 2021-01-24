@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public interface ISimpleGameManager {
@@ -21,6 +19,8 @@ public class GameManager : MonoBehaviour, ISimpleGameManager {
     [SerializeField]
     private ProgressBar staminaFlyBar;
 
+    [SerializeField]
+    private ProgressBar hungerBar;
 
     private void Awake() {
         SceneManager.LoadScene("Shared", LoadSceneMode.Additive);
@@ -44,6 +44,8 @@ public class GameManager : MonoBehaviour, ISimpleGameManager {
     /// Invokes when player dies
     /// </summary>
     public void OnPlayerDeath() {
+        AudioManager.Instance.PlayDeathEvent();
+        // Temporary
         ReloadScene();
     }
 
@@ -55,12 +57,27 @@ public class GameManager : MonoBehaviour, ISimpleGameManager {
         var position = coin.transform.position;
 
         EffectManager.Instance.PlayCoinEffect(position);
+        AudioManager.Instance.PlayCoinEvent();
 
         coin.SetActive(false);
     }
 
+    public void OnPlayerHungerChanged(float hunger) {
+        hungerBar.ChangeProgress(hunger);
+    }
+
+    public void OnFoodReached(GameObject food) {
+        var position = food.transform.position;
+
+        EffectManager.Instance.PlayFoodEffect(position);
+        AudioManager.Instance.PlayFoodEvent();
+
+        food.SetActive(false);
+    }
+
     public void OnWin(Vector3 winPosition) {
         EffectManager.Instance.PlayWinEffect(winPosition);
+        AudioManager.Instance.PlayWinEvent();
     }
 
     public void OnPlayerFlying(float capacity) {

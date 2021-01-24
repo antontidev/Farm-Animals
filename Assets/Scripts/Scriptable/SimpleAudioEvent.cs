@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using UnityEngine;
 using Random = UnityEngine.Random;
-using UnityEngine;
 
 [CreateAssetMenu(menuName = "AudioEvent/Simple")]
 public class SimpleAudioEvent : AudioEvent {

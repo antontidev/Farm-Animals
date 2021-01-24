@@ -1,28 +1,25 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class EffectManager : MonoBehaviour
-{
+public class EffectManager : MonoBehaviour {
     [SerializeField]
     private EffectEvent winEvent;
 
     [SerializeField]
     private EffectEvent coinEvent;
 
+    [SerializeField]
+    private EffectEvent foodEvent;
+
     public static EffectManager Instance;
 
     // Start is called before the first frame update
-    void Awake()
-    {
+    void Awake() {
         if (Instance == null) {
             Instance = this;
         }
         else if (Instance == this) {
-            Destroy(gameObject); 
+            Destroy(gameObject);
         }
-
-        DontDestroyOnLoad(gameObject);
 
         coinEvent.PreloadEffect();
         winEvent.PreloadEffect();
@@ -34,5 +31,9 @@ public class EffectManager : MonoBehaviour
 
     public void PlayWinEffect(Vector3 position) {
         winEvent.Play(position);
+    }
+
+    public void PlayFoodEffect(Vector3 position) {
+        foodEvent.Play(position);
     }
 }

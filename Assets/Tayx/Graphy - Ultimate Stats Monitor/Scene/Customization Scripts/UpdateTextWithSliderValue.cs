@@ -12,13 +12,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-using System.Collections;
-
-namespace Tayx.Graphy.CustomizationScene
-{
+namespace Tayx.Graphy.CustomizationScene {
     [RequireComponent(typeof(Text))]
-	public class UpdateTextWithSliderValue : MonoBehaviour
-	{
+    public class UpdateTextWithSliderValue : MonoBehaviour {
         /* ----- TODO: ----------------------------
          * Check if we can seal this class.
          * Add summaries to the variables.
@@ -41,21 +37,19 @@ namespace Tayx.Graphy.CustomizationScene
 
         #region Methods -> Unity Callbacks
 
-        void Start()
-		{
-			m_text = GetComponent<Text>();
+        void Start() {
+            m_text = GetComponent<Text>();
 
-			m_slider.onValueChanged.AddListener(UpdateText);
-		}
+            m_slider.onValueChanged.AddListener(UpdateText);
+        }
 
         #endregion
 
         #region Methods -> Private
 
-        private void UpdateText(float value)
-		{
-			m_text.text = value.ToString();
-		}
+        private void UpdateText(float value) {
+            m_text.text = value.ToString();
+        }
 
         #endregion
     }

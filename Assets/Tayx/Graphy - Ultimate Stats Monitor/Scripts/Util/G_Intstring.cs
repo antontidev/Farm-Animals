@@ -11,10 +11,8 @@
 
 using UnityEngine;
 
-namespace Tayx.Graphy.Utils.NumString
-{
-    public static class G_IntString
-    {
+namespace Tayx.Graphy.Utils.NumString {
+    public static class G_IntString {
         /* ----- TODO: ----------------------------
          * Try and move the Init to a core method.
          * --------------------------------------*/
@@ -38,10 +36,8 @@ namespace Tayx.Graphy.Utils.NumString
         /// <summary>
         /// Have the int buffers been initialized?
         /// </summary>
-        public static bool Inited
-        {
-            get
-            {
+        public static bool Inited {
+            get {
                 return negativeBuffer.Length > 0 || positiveBuffer.Length > 0;
             }
         }
@@ -49,10 +45,8 @@ namespace Tayx.Graphy.Utils.NumString
         /// <summary>
         /// The lowest int value of the existing number buffer.
         /// </summary>
-        public static int MinValue
-        {
-            get
-            {
+        public static int MinValue {
+            get {
                 return -(negativeBuffer.Length - 1);
             }
         }
@@ -60,10 +54,8 @@ namespace Tayx.Graphy.Utils.NumString
         /// <summary>
         /// The highest int value of the existing number buffer.
         /// </summary>
-        public static int MaxValue
-        {
-            get
-            {
+        public static int MaxValue {
+            get {
                 return positiveBuffer.Length - 1;
             }
         }
@@ -81,27 +73,22 @@ namespace Tayx.Graphy.Utils.NumString
         /// <param name="maxPositiveValue">
         /// Highest positive value allowed.
         /// </param>
-        public static void Init(int minNegativeValue, int maxPositiveValue)
-        {
-            if (minNegativeValue <= 0)
-            {
+        public static void Init(int minNegativeValue, int maxPositiveValue) {
+            if (minNegativeValue <= 0) {
                 int length = Mathf.Abs(minNegativeValue);
                 negativeBuffer = new string[length];
-                for (int i = 0; i < length; i++)
-                {
+                for (int i = 0; i < length; i++) {
                     negativeBuffer[i] = (-i).ToString();
                 }
             }
-            if (maxPositiveValue >= 0)
-            {
+            if (maxPositiveValue >= 0) {
                 positiveBuffer = new string[maxPositiveValue];
-                for (int i = 0; i < maxPositiveValue; i++)
-                {
+                for (int i = 0; i < maxPositiveValue; i++) {
                     positiveBuffer[i] = i.ToString();
                 }
             }
         }
-        
+
         /// <summary>
         /// Returns this int as a cached string.
         /// </summary>
@@ -111,15 +98,12 @@ namespace Tayx.Graphy.Utils.NumString
         /// <returns>
         /// A cached number string.
         /// </returns>
-        public static string ToStringNonAlloc(this int value)
-        {
-            if (value < 0 && -value < negativeBuffer.Length)
-            {
+        public static string ToStringNonAlloc(this int value) {
+            if (value < 0 && -value < negativeBuffer.Length) {
                 return negativeBuffer[-value];
             }
 
-            if (value >= 0 && value < positiveBuffer.Length)
-            {
+            if (value >= 0 && value < positiveBuffer.Length) {
                 return positiveBuffer[value];
             }
 
