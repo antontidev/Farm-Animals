@@ -10,6 +10,9 @@
 /[Ll]ogs/
 /[Mm]emoryCaptures/
 /node_modules/
+/Library-Android/
+/Library-StandaloneWindows/
+/Node server/node_modules/
 
 # Never ignore Asset meta data
 !/[Aa]ssets/**/*.meta
