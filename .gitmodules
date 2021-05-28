@@ -4,3 +4,6 @@
 [submodule "Assets/Plugins/Tags"]
 	path = Assets/Plugins/Tags
 	url = https://github.com/neon-age/Tags.git
+[submodule "ml-agents"]
+	path = ml-agents
+	url = https://github.com/Unity-Technologies/ml-agents.git
