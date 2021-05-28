@@ -1,116 +1,52 @@
-﻿using Mirror;
-using MyBox;
-using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public interface ICoinHandler {
-    void SaveCoins();
+public interface ISimpleGameManager {
+    void OnPlayerDeath();
 
-    void BuyCoins(float coins);
-}
-
-public interface ICollisionManager {
     void OnCoinGrab(GameObject coin);
 
-    void OnWin(string levelName, Vector3 winPosition);
+    void OnWin(Vector3 winPosition);
 
     void OnPlayerFlying(float capacity);
-
-    void OnPlayerDeath(GameObject player);
-
-    void OnFoodReached(GameObject food);
-
-    void OnPlayerHungerChanged(float hunger);
 }
 
-public class GameManager : MonoBehaviour, ICoinHandler, ICollisionManager {
+public class GameManager : MonoBehaviour, ISimpleGameManager {
+    // --> Debug scene
     [SerializeField]
     private FadeManager fadeManager;
 
-    [SerializeField]
-    private Vector3 initalPosition;
-
-    #region Bars
     [SerializeField]
     private ProgressBar staminaFlyBar;
 
     [SerializeField]
     private ProgressBar hungerBar;
 
-    [SerializeField]
-    private CoinBar coinBar;
-
-    [SerializeField]
-    private GameObject heroPicker;
-    #endregion
-
-    [SerializeField]
-    private CoinsSettings coinsSettings;
-
-    [ReadOnly]
-    public int coins;
-
-    public bool showDebugInfo;
-
-    public int loadDelay;
-
-    private void StartSever() {
-        var manager = GetComponent<NetworkManager>();
-
-        manager.StartServer();
-
-        Debug.Log("Starting server");
-    }
-
     private void Awake() {
-        if (showDebugInfo) {
-            SceneManager.LoadScene("Shared", LoadSceneMode.Additive);
+        SceneManager.LoadScene("Shared", LoadSceneMode.Additive);
 
-            fadeManager.Unfade(null);
-        }
-
-        var coinsInSettings = coinsSettings.Coins;
-
-        coinBar.ChangeValue(coinsInSettings);
+        fadeManager.Unfade(null);
     }
 
-#region Scene loaders
-    private void LoadScene(string levelName) {
-        StartCoroutine(LoadSceneAsync(levelName));
-    }
+    private void LoadScene() {
+        var index = SceneManager.GetActiveScene().buildIndex + 1;
 
-    private IEnumerator LoadSceneAsync(string levelName) {
-        yield return new WaitForSeconds(loadDelay);
-
-        SceneManager.LoadScene(levelName, LoadSceneMode.Single);
+        SceneManager.LoadScene(index, LoadSceneMode.Single);
     }
 
     private void ReloadScene() {
-        StartCoroutine(ReloadSceneAsync());
-    }
-
-    private IEnumerator ReloadSceneAsync() {
-        yield return new WaitForSeconds(loadDelay);
-
         var index = SceneManager.GetActiveScene().buildIndex;
 
         SceneManager.LoadScene(index, LoadSceneMode.Single);
     }
-#endregion
 
-#region Player event handlers
     /// <summary>
     /// Invokes when player dies
     /// </summary>
-    public void OnPlayerDeath(GameObject player) {
+    public void OnPlayerDeath() {
         AudioManager.Instance.PlayDeathEvent();
         // Temporary
-        player.transform.position = initalPosition;
-    }
-
-    public void OnPickHero() {
-        heroPicker.SetActive(true);
+        ReloadScene();
     }
 
     /// <summary>
@@ -124,14 +60,10 @@ public class GameManager : MonoBehaviour, ICoinHandler, ICollisionManager {
         AudioManager.Instance.PlayCoinEvent();
 
         coin.SetActive(false);
-
-        coins++;
-
-        coinBar.ChangeValue(coinsSettings.Coins + coins);
     }
 
     public void OnPlayerHungerChanged(float hunger) {
-        hungerBar.ChangeValue(hunger);
+        hungerBar.ChangeProgress(hunger);
     }
 
     public void OnFoodReached(GameObject food) {
@@ -143,27 +75,12 @@ public class GameManager : MonoBehaviour, ICoinHandler, ICollisionManager {
         food.SetActive(false);
     }
 
-    public void OnWin(string levelName, Vector3 winPosition) {
+    public void OnWin(Vector3 winPosition) {
         EffectManager.Instance.PlayWinEffect(winPosition);
         AudioManager.Instance.PlayWinEvent();
-
-        SaveCoins();
-
-        LoadScene(levelName);
     }
 
     public void OnPlayerFlying(float capacity) {
-        staminaFlyBar.ChangeValue(capacity);
+        staminaFlyBar.ChangeProgress(capacity);
     }
-#endregion
-
-#region Coins logic
-    public void SaveCoins() {
-        coinsSettings.SaveCoins(coins);
-    }
-
-    public void BuyCoins(float coins) {
-        coinsSettings.SaveCoins(coins);
-    }
-#endregion
 }

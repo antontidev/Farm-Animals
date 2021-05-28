@@ -3,8 +3,6 @@
 # Get latest from https://github.com/github/gitignore/blob/master/Unity.gitignore
 #
 /[Ll]ibrary/
-/Library-Android/
-/Library-StandaloneWindows/
 /[Tt]emp/
 /[Oo]bj/
 /[Bb]uild/
@@ -12,7 +10,6 @@
 /[Ll]ogs/
 /[Mm]emoryCaptures/
 /node_modules/
-/Node server/node_modules/
 
 # Never ignore Asset meta data
 !/[Aa]ssets/**/*.meta

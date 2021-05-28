@@ -638,9 +638,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  pressState:
-    m_PersistentCalls:
-      m_Calls: []
   clampMode: 0
   TurnLimit: 74.33813
   ReturnSpeed: 10
@@ -961,11 +958,6 @@ PrefabInstance:
       propertyPath: interactReached.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 967571010}
-    - target: {fileID: 8699692027393760895, guid: aa3784adb6428184e991be2d60ee0cb2,
-        type: 3}
-      propertyPath: sceneId
-      value: 3146399633
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aa3784adb6428184e991be2d60ee0cb2, type: 3}
 --- !u!4 &939945649 stripped
@@ -1003,15 +995,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f78cb0112090ce49bd162d0e98bb373, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interacts:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   fadeManager: {fileID: 1858559902}
-  initalPosition: {x: 0, y: 0, z: 0}
-  staminaFlyBar: {fileID: 0}
-  hungerBar: {fileID: 0}
-  coinBar: {fileID: 0}
-  coinsSettings: {fileID: 0}
-  coins: 0
-  showDebugInfo: 0
-  loadDelay: 0
+  lastLevel: 1
+  lastCanvas: {fileID: 0}
 --- !u!4 &967571011
 Transform:
   m_ObjectHideFlags: 0
@@ -1953,7 +1943,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputType: 1
-  gameManager: {fileID: 0}
 --- !u!114 &1830930444
 MonoBehaviour:
   m_ObjectHideFlags: 0

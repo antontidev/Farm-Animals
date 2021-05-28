@@ -1,10 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
-<resources tools:keep="@string/gcm_defaultSenderId,@string/google_storage_bucket,@string/project_id,@string/google_api_key,@string/google_crash_reporting_api_key,@string/google_app_id,@string/default_web_client_id" xmlns:tools="http://schemas.android.com/tools">
-  <string name="gcm_defaultSenderId" translatable="false">292949656407</string>
-  <string name="google_storage_bucket" translatable="false">farm-animals-64918.appspot.com</string>
-  <string name="project_id" translatable="false">farm-animals-64918</string>
-  <string name="google_api_key" translatable="false">AIzaSyBZY8CCR39jVGZY9k08P3zLe7WJ1oYcfHQ</string>
-  <string name="google_crash_reporting_api_key" translatable="false">AIzaSyBZY8CCR39jVGZY9k08P3zLe7WJ1oYcfHQ</string>
-  <string name="google_app_id" translatable="false">1:292949656407:android:e02495723208e6cd687412</string>
-  <string name="default_web_client_id" translatable="false">292949656407-tim5e3hjljmkeamj48742rtomqqiqdmt.apps.googleusercontent.com</string>
+<resources tools:keep="@string/firebase_database_url,@string/gcm_defaultSenderId,@string/google_storage_bucket,@string/project_id,@string/google_api_key,@string/google_crash_reporting_api_key,@string/google_app_id,@string/default_web_client_id" xmlns:tools="http://schemas.android.com/tools">
+  <string name="firebase_database_url" translatable="false">https://animals-comming-ab071.firebaseio.com</string>
+  <string name="gcm_defaultSenderId" translatable="false">200924571444</string>
+  <string name="google_storage_bucket" translatable="false">animals-comming-ab071.appspot.com</string>
+  <string name="project_id" translatable="false">animals-comming-ab071</string>
+  <string name="google_api_key" translatable="false">AIzaSyBbV_LMD2tOzg9xQccd3vNmA_3u1vYizNY</string>
+  <string name="google_crash_reporting_api_key" translatable="false">AIzaSyBbV_LMD2tOzg9xQccd3vNmA_3u1vYizNY</string>
+  <string name="google_app_id" translatable="false">1:200924571444:android:b9c7aa705852082d6ae761</string>
+  <string name="default_web_client_id" translatable="false">200924571444-bb43ckanrasaid0971ablabvdi4hhfv4.apps.googleusercontent.com</string>
 </resources>

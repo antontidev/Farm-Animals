@@ -130,7 +130,6 @@ MonoBehaviour:
   fill: {fileID: 7108573866880818166}
   progress: {fileID: 7108573866792977523}
   alwaysVisible: 0
-  value: 0
   fadeSeconds: 1
 --- !u!114 &2608045877535305886
 MonoBehaviour:
@@ -182,8 +181,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 70.53, y: -26.7}
-  m_SizeDelta: {x: 98.49202, y: 17.471191}
+  m_AnchoredPosition: {x: 95.87, y: -26.7}
+  m_SizeDelta: {x: 149.18808, y: 17.471191}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7108573866792977520
 CanvasRenderer:

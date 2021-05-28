@@ -1,38 +1,40 @@
 {
   "project_info": {
-    "project_number": "292949656407",
-    "project_id": "farm-animals-64918",
-    "storage_bucket": "farm-animals-64918.appspot.com"
+    "project_number": "200924571444",
+    "firebase_url": "https://animals-comming-ab071.firebaseio.com",
+    "project_id": "animals-comming-ab071",
+    "storage_bucket": "animals-comming-ab071.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:292949656407:android:e02495723208e6cd687412",
+        "mobilesdk_app_id": "1:200924571444:android:b9c7aa705852082d6ae761",
         "android_client_info": {
           "package_name": "com.wwnb.animalscome"
         }
       },
       "oauth_client": [
         {
-          "client_id": "292949656407-tim5e3hjljmkeamj48742rtomqqiqdmt.apps.googleusercontent.com",
+          "client_id": "200924571444-bb43ckanrasaid0971ablabvdi4hhfv4.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBZY8CCR39jVGZY9k08P3zLe7WJ1oYcfHQ"
+          "current_key": "AIzaSyBbV_LMD2tOzg9xQccd3vNmA_3u1vYizNY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "292949656407-tim5e3hjljmkeamj48742rtomqqiqdmt.apps.googleusercontent.com",
+              "client_id": "200924571444-bb43ckanrasaid0971ablabvdi4hhfv4.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
         }
-      }
+      },
+      "admob_app_id": "ca-app-pub-6270513677461848~6050262246"
     }
   ],
   "configuration_version": "1"
