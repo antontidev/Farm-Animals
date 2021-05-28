@@ -1,0 +1,81 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7decf71d60cb2fe438b4d9a0a160a517, type: 3}
+  m_Name: SceneLoaderManager
+  m_EditorClassIdentifier: 
+  List:
+    array:
+    - SceneName: LoadExample
+      SceneAsset: {fileID: 102900000, guid: 511f544c1ae32b3448425de6b65acff2, type: 3}
+      DisplayName: This Example Name
+      Description: Prompta noluisse verterem sed eu, mundi graece eum in. Vis ut
+        alia euismod tincidunt, per no ubique euismod. Indoctum qualisque vituperata
+        an his. Timeam feugait id mel, vis in iuvaret fabulas. Quis veri diceret
+        vix in, numquam praesent elaboraret eum ne.
+      SkipType: 0
+      LoadingType: 1
+      FakeLoadingTime: 7
+      Backgrounds:
+      - {fileID: 21300000, guid: 2650407d6311724489f3256696e75bb0, type: 3}
+      - {fileID: 21300000, guid: af238b260179c884b93aa3248768f90b, type: 3}
+      - {fileID: 21300000, guid: d693da8ebc165674b9509bab6391e358, type: 3}
+    - SceneName: demo
+      SceneAsset: {fileID: 102900000, guid: c34f5b9761f1c134c9b57f319ee6a287, type: 3}
+      DisplayName: demo
+      Description: 
+      SkipType: 3
+      LoadingType: 0
+      FakeLoadingTime: 2
+      Backgrounds: []
+    - SceneName: 1-mb-game
+      SceneAsset: {fileID: 102900000, guid: 16ab2f409eeadce428d2928fee061f68, type: 3}
+      DisplayName: 1-mb-game
+      Description: 
+      SkipType: 3
+      LoadingType: 0
+      FakeLoadingTime: 2
+      Backgrounds: []
+    - SceneName: 2-mb-game
+      SceneAsset: {fileID: 102900000, guid: ea12e50d2c07e9c4d8682316b273278b, type: 3}
+      DisplayName: 2-mb-game
+      Description: 
+      SkipType: 3
+      LoadingType: 0
+      FakeLoadingTime: 2
+      Backgrounds: []
+    - SceneName: Shared
+      SceneAsset: {fileID: 102900000, guid: c8b09774f865abf4db8edf24f69b50f9, type: 3}
+      DisplayName: Shared
+      Description: 
+      SkipType: 3
+      LoadingType: 0
+      FakeLoadingTime: 2
+      Backgrounds: []
+    - SceneName: Mb-arena
+      SceneAsset: {fileID: 102900000, guid: 30efe9347e5e5b04f951f45eab2c14f3, type: 3}
+      DisplayName: Arena
+      Description: Get ready boy
+      SkipType: 0
+      LoadingType: 1
+      FakeLoadingTime: 3
+      Backgrounds:
+      - {fileID: 21300000, guid: 3b538efd3ecd6c049bedacc2f9ffd29f, type: 3}
+      - {fileID: 21300000, guid: af238b260179c884b93aa3248768f90b, type: 3}
+  TipList:
+    array:
+    - Create beutifull loading screens for improved your game
+    - Easy to use and implement
+    - remember that have 3 diferent styles for select.
+    - Create how much Tips as you want
+    - Improved the look of your game with awasome backgrounds.
+    - A good background sound increase the motivation of players.
+    - remember that have 3 diferent styles for select.
