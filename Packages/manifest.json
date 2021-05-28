@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.domybest.mybox": "1.5.1",
     "com.google.external-dependency-manager": "1.2.162",
     "com.kelvip.quick-scene-switcher": "1.0.0",
     "com.unity.2d.sprite": "1.0.0",
@@ -8,6 +9,7 @@
     "com.unity.ide.visualstudio": "2.0.5",
     "com.unity.ide.vscode": "1.2.3",
     "com.unity.jobs": "0.2.10-preview.12",
+    "com.unity.multiplayer-hlapi": "1.1.1",
     "com.unity.probuilder": "4.4.0",
     "com.unity.progrids": "3.0.3-preview.6",
     "com.unity.purchasing": "2.1.1",
@@ -47,8 +49,7 @@
     "com.unity.modules.video": "1.0.0",
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
-    "com.unity.modules.xr": "1.0.0",
-    "com.domybest.mybox": "1.5.1"
+    "com.unity.modules.xr": "1.0.0"
   },
   "scopedRegistries": [
     {

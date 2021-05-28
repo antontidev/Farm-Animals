@@ -1,4 +1,4 @@
-[submodule "Assets/Shared-Lib"]
+[submodule "Assets/Plugins/Shared-Lib"]
 	path = Assets/Shared-Lib
 	url = https://github.com/antontidev/Shared-Lib.git
 [submodule "Assets/Plugins/Tags"]
