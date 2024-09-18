@@ -16,7 +16,13 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: 4def86b0a47220445993fcfc50048978
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 1375117de7d61ed4fb2da84491629187
+    m_Address: Assets/Source/Global/DLLS/Main.dll.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DLLS
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: f02291fe95c632d41b291e17290a1c81, type: 2}
   m_SchemaSet:

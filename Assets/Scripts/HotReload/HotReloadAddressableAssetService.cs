@@ -9,8 +9,10 @@ using UnityEngine.ResourceManagement.ResourceProviders;
 
 namespace HotReload {
     public static class HotReloadAddressableAssetService {
-        public static async UniTask<IList<T>> LoadByLabel<T>(IEnumerable<string> keys) where T : class {
-            return await Addressables.LoadAssetsAsync<T>(keys, val => {}, Addressables.MergeMode.Union);
+        public static async UniTask<IList<T>> LoadByLabel<T>(string keys) where T : class
+        {
+            var objects = await Addressables.LoadAssetsAsync<object>(keys, null);
+            return objects.OfType<T>().ToList();
             
             /*var result = Addressables.LoadResourceLocationsAsync(keys,
                 Addressables.MergeMode.Union, typeof(T));

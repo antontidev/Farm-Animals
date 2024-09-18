@@ -13,6 +13,8 @@
 /Library-Android/
 /Library-StandaloneWindows/
 /Node server/node_modules/
+/HybridCLRData/
+/.idea/
 
 # Never ignore Asset meta data
 !/[Aa]ssets/**/*.meta

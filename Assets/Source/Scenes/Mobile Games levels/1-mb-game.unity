@@ -3372,6 +3372,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f78cb0112090ce49bd162d0e98bb373, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SharedSceneReference:
+    m_AssetGUID: c8b09774f865abf4db8edf24f69b50f9
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
   fadeManager: {fileID: 1269628777}
   staminaFlyBar: {fileID: 7108573867266814938}
   hungerBar: {fileID: 1900787392}

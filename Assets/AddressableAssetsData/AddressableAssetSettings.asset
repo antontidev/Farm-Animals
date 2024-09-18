@@ -15,9 +15,9 @@ MonoBehaviour:
   m_DefaultGroup: c68d42e5f9a7cae4d85d00fbc8b5e6a0
   m_currentHash:
     serializedVersion: 2
-    Hash: b9da94db80774b87a500d7c76f1c80d2
+    Hash: 00000000000000000000000000000000
   m_OptimizeCatalogSize: 0
-  m_BuildRemoteCatalog: 0
+  m_BuildRemoteCatalog: 1
   m_BundleLocalCatalog: 0
   m_CatalogRequestsTimeout: 0
   m_DisableCatalogUpdateOnStart: 0
@@ -35,14 +35,14 @@ MonoBehaviour:
   m_CheckForContentUpdateRestrictionsOption: 0
   m_MonoScriptBundleCustomNaming: 
   m_RemoteCatalogBuildPath:
-    m_Id: 
+    m_Id: 6359f540144243d4fa6c5c68e6715169
   m_RemoteCatalogLoadPath:
-    m_Id: 
-  m_ContentStateBuildPathProfileVariableName: 
+    m_Id: 9dca17306b223cd4e9b4d7f051d39e81
+  m_ContentStateBuildPathProfileVariableName: <default settings path>
   m_CustomContentStateBuildPath: 
   m_ContentStateBuildPath: 
   m_BuildAddressablesWithPlayerBuild: 2
-  m_overridePlayerVersion: 
+  m_overridePlayerVersion: '[UnityEditor.PlayerSettings.bundleVersion]'
   m_GroupAssets:
   - {fileID: 11400000, guid: b6dc90e26d1938244b816266bdd015d1, type: 2}
   - {fileID: 11400000, guid: cfc82b0365bd63344b2d7bebdcd4a359, type: 2}
@@ -70,26 +70,42 @@ MonoBehaviour:
         m_Value: ServerData/[BuildTarget]
       - m_Id: 9dca17306b223cd4e9b4d7f051d39e81
         m_Value: http://localhost/[BuildTarget]
+    - m_InheritedParent: 
+      m_Id: 2a8f528b2b506234795be92b00df3f3f
+      m_ProfileName: HybridCLR
+      m_Values:
+      - m_Id: 499fc3f86a8c82c44a23c167bd21f1af
+        m_Value: '[UnityEditor.EditorUserBuildSettings.activeBuildTarget]'
+      - m_Id: ee264717dfb31144984245a7b568ad78
+        m_Value: '[UnityEngine.AddressableAssets.Addressables.BuildPath]/[BuildTarget]'
+      - m_Id: 7545a55a7d469894795d4d671059c318
+        m_Value: '{UnityEngine.AddressableAssets.Addressables.RuntimePath}/[BuildTarget]'
+      - m_Id: 6359f540144243d4fa6c5c68e6715169
+        m_Value: ServerData/[BuildTarget]
+      - m_Id: 9dca17306b223cd4e9b4d7f051d39e81
+        m_Value: https://antontidev.github.io/addressables-hosting/[BuildTarget]
     m_ProfileEntryNames:
     - m_Id: 499fc3f86a8c82c44a23c167bd21f1af
       m_Name: BuildTarget
       m_InlineUsage: 0
     - m_Id: ee264717dfb31144984245a7b568ad78
-      m_Name: LocalBuildPath
+      m_Name: Local.BuildPath
       m_InlineUsage: 0
     - m_Id: 7545a55a7d469894795d4d671059c318
-      m_Name: LocalLoadPath
+      m_Name: Local.LoadPath
       m_InlineUsage: 0
     - m_Id: 6359f540144243d4fa6c5c68e6715169
-      m_Name: RemoteBuildPath
+      m_Name: Remote.BuildPath
       m_InlineUsage: 0
     - m_Id: 9dca17306b223cd4e9b4d7f051d39e81
-      m_Name: RemoteLoadPath
+      m_Name: Remote.LoadPath
       m_InlineUsage: 0
     m_ProfileVersion: 1
   m_LabelTable:
     m_LabelNames:
     - default
+    - DLLS
+    - DLLSMetadata
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 9e1ca8716b00f2d42b03b74dc156d324, type: 2}
@@ -103,7 +119,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 174bc5202924d23448cff52777c83bd1, type: 2}
   - {fileID: 11400000, guid: 78e1aaebfdce99149ae2cd9a1f04343b, type: 2}
   - {fileID: 11400000, guid: 5902625f153c8d845a0d1b7e0e48b52a, type: 2}
-  m_ActiveProfileId: a0060e5a21e259f40bca85e7a4f952fa
+  m_ActiveProfileId: 2a8f528b2b506234795be92b00df3f3f
   m_HostingServicesManager:
     m_HostingServiceInfos: []
     m_Settings: {fileID: 11400000}

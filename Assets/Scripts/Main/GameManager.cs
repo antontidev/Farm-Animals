@@ -22,9 +22,7 @@ public class GameManager : MonoBehaviour, ISimpleGameManager {
     [SerializeField]
     private ProgressBar hungerBar;
 
-    private void Awake() {
-        SceneManager.LoadScene("Shared", LoadSceneMode.Additive);
-
+    private async void Awake() {
         fadeManager.Unfade(null);
     }
 
@@ -59,7 +57,8 @@ public class GameManager : MonoBehaviour, ISimpleGameManager {
         EffectManager.Instance.PlayCoinEffect(position);
         AudioManager.Instance.PlayCoinEvent();
 
-        coin.SetActive(false);
+        coin.transform.localScale *= 2;
+        //coin.SetActive(false);
     }
 
     public void OnPlayerHungerChanged(float hunger) {

@@ -16,7 +16,43 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: 6a4aae04d78114f4496ba7de8187c4d7
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 32a9f37b9b0044646ae93ecb78cba70a
+    m_Address: Assets/Source/Global/DLLSMetadata/Shared-Lib.dll.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DLLSMetadata
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: aac1f32cbbd52784a87eef54c3d646d4
+    m_Address: Assets/Source/Global/DLLSMetadata/UniRx.dll.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DLLSMetadata
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 302e0cef74f70a540bf69eda4b786d63
+    m_Address: Assets/Source/Global/DLLSMetadata/mscorlib.dll.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DLLSMetadata
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a156d4ed865f2c048899488dd3d69991
+    m_Address: Assets/Source/Global/DLLSMetadata/UnityEngine.CoreModule.dll.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DLLSMetadata
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fc3000ed6da4c6d45ab6054574103ab4
+    m_Address: Assets/Source/Global/DLLSMetadata/DOTween.dll.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DLLSMetadata
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3fbea5067fc3a174993d9d4fbedb7e88
+    m_Address: Assets/Source/Global/DLLSMetadata/Zenject.dll.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DLLSMetadata
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: f02291fe95c632d41b291e17290a1c81, type: 2}
   m_SchemaSet:

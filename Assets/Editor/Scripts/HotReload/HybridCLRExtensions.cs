@@ -1,4 +1,5 @@
-﻿using HybridCLR.Editor.Commands;
+﻿using System.Collections.Generic;
+using HybridCLR.Editor.Commands;
 using UnityEditor;
 
 namespace Editor.Scripts.HotReload {
@@ -21,10 +22,13 @@ namespace Editor.Scripts.HotReload {
             // 生成裁剪后的aot dll
             StripAOTDllCommand.GenerateStripedAOTDlls(buildTarget);
             
-            
             var hybridCLRConfig = HybridCLRBuild.FindFirstAssetByType<HybridCLRConfig>();
-            
-            var metadataList = AOTGenericReferences.
+
+            hybridCLRConfig.MetadataAssemblyList = new List<string>();
+            var metadataList = AOTGenericReferences.PatchedAOTAssemblyList;
+            foreach (var dll in metadataList) {
+                hybridCLRConfig.MetadataAssemblyList.Add(dll);
+            }
         }
     }
 }

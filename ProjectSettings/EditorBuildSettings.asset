@@ -6,14 +6,14 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Mobile Games levels/1-mb-game.unity
+    path: Assets/Source/Scenes/HotReload.unity
+    guid: f3ee4babd4a53184ba0d67b3ec520b7a
+  - enabled: 0
+    path: Assets/Source/Scenes/Mobile Games levels/1-mb-game.unity
     guid: 16ab2f409eeadce428d2928fee061f68
-  - enabled: 1
-    path: Assets/Scenes/Mobile Games levels/Mb-Level2.unity
-    guid: 3a016c241b2964649a3ee1a7c7e9a723
-  - enabled: 1
-    path: Assets/Scenes/Mobile Games levels/Shared.unity
+  - enabled: 0
+    path: Assets/Source/Scenes/Mobile Games levels/Shared.unity
     guid: c8b09774f865abf4db8edf24f69b50f9
   m_configObjects:
-    com.unity.addressableassets: {fileID: 11400000, guid: 6416aa91768f55043a1c1b5490563c80,
-      type: 2}
+    addressableimportsettingslist: {fileID: 11400000, guid: fcf23f8dc5e9abb41b5ab90c8e2b1223, type: 2}
+    com.unity.addressableassets: {fileID: 11400000, guid: 6416aa91768f55043a1c1b5490563c80, type: 2}
